@@ -13,6 +13,10 @@
         "port": 9005,
         "labels": ["oauth2"],
         "routes": { "cors": true }
+      },
+      {
+        "port": 9007,
+        "labels": ["admin"]
       }
     ]
   },
@@ -50,12 +54,20 @@
       "plugin": "lout"
     },
     {
-      "plugin": "./lib/modules/authServer/index"
-      ,
+      "plugin": "./lib/modules/authServer/index",
       "options": {
         "select": ["oauth2"],
         "routes": {
           "prefix": "/oauth2"
+        }
+      }
+    },
+    {
+      "plugin": "./lib/modules/authUI/index",
+      "options": {
+        "select": ["admin"],
+        "routes": {
+          "prefix": "/ui"
         }
       }
     }
