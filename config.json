@@ -1,0 +1,63 @@
+{
+  "server": {},
+  "connections": {
+    "$filter": "env",
+    "production": [
+      {
+        "port": 8080,
+        "labels": ["api"]
+      }
+    ],
+    "$default": [
+      {
+        "port": 9005,
+        "labels": ["oauth2"],
+        "routes": { "cors": true }
+      }
+    ]
+  },
+  "registrations": [
+    {
+      "plugin": {
+        "register": "good",
+        "options": {
+          "reporters": {
+            "console": [
+              {
+                "module": "good-squeeze",
+                "name": "Squeeze",
+                "args": [{
+                  "log": "*",
+                  "response": "*"
+                }]
+              },
+              {
+                "module": "good-console"
+              },
+              "stdout"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "plugin": "vision"
+    },
+    {
+      "plugin": "inert"
+    },
+    {
+      "plugin": "lout"
+    },
+    {
+      "plugin": "./lib/modules/authServer/index"
+      ,
+      "options": {
+        "select": ["oauth2"],
+        "routes": {
+          "prefix": "/oauth2"
+        }
+      }
+    }
+  ]
+}
