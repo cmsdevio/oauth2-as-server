@@ -21,7 +21,8 @@
     "lout": "^10.0.2",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.3",
-    "vision": "^4.1.1"
+    "vision": "^4.1.1",
+    "wreck": "^12.2.2"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
