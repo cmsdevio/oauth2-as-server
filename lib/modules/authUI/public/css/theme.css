@@ -16,3 +16,11 @@ body {
 .theme-showcase .navbar .container {
     width: auto;
 }
+
+.icon-success {
+    color: #5CB85C;
+}
+
+.icon-danger {
+    color: #b92c28;
+}

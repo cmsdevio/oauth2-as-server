@@ -1,0 +1,20 @@
+<div class="container theme-showcase" role="main">
+    <div class="page-header">
+        <h1>Approve this client?</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <b>ID: </b>{{client.client_id}}
+                <br/>
+                <b>Redirect URI: </b>{{redirect_uri}}
+            </p>
+            <br/>
+            <form class="form" action="/ui/approve" method="POST">
+                <input type="hidden" name="req_id" value={{req_id}}>
+                <input type="submit" class="btn btn-success" name="approve" value="Approve">
+                <input type="submit" class="btn btn-danger" name="deny" value="Deny">
+            </form>
+        </div>
+    </div>
+</div>

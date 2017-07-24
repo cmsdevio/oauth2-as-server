@@ -2,4 +2,21 @@
     <td>{{client_id}}</td>
     <td>{{client_secret}}</td>
     <td>{{redirect_uris}}</td>
+    <td>
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-remove icon-danger"></span>
+            </button>
+            <button type="button" class="btn btn-default">
+                {{#if active}}
+                    <span class="glyphicon glyphicon-off icon-success"></span>
+                {{else}}
+                    <span class="glyphicon glyphicon-off"></span>
+                {{/if}}
+            </button>
+        </div>
+    </td>
 </tr>
