@@ -55,6 +55,12 @@
       "plugin": "lout"
     },
     {
+      "plugin": "hapi-auth-cookie"
+    },
+    {
+      "plugin": "hapi-auth-bearer-token"
+    },
+    {
       "plugin": "./lib/modules/authServer/index",
       "options": {
         "select": ["oauth2"],
