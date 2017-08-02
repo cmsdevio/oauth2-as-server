@@ -7,16 +7,16 @@
             <button type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-pencil"></span>
             </button>
-            <button type="button" class="btn btn-default">
+            <a class="btn btn-large btn-info" href="/ui/client/{{client_id}}/delete">
                 <span class="glyphicon glyphicon-remove icon-danger"></span>
-            </button>
-            <button type="button" class="btn btn-default">
+            </a>
+            <a class="btn btn-large btn-info" href="/ui/client/{{client_id}}/{{#if active}}deactivate{{else}}activate{{/if}}">
                 {{#if active}}
                     <span class="glyphicon glyphicon-off icon-success"></span>
                 {{else}}
                     <span class="glyphicon glyphicon-off"></span>
                 {{/if}}
-            </button>
+            </a>
         </div>
     </td>
 </tr>
