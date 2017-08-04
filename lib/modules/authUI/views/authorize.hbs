@@ -4,16 +4,27 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <p>
-                <b>ID: </b>{{client.client_id}}
-                <br/>
-                <b>Redirect URI: </b>{{redirect_uri}}
-            </p>
-            <br/>
             <form class="form" action="/ui/approve" method="POST">
+                <p>
+                    <b>ID: </b>{{client.client_id}}
+                    <br/>
+                    <b>Redirect URI: </b>{{redirect_uri}}
+                </p>
+
                 <input type="hidden" name="req_id" value={{req_id}}>
-                <input type="submit" class="btn btn-success" name="approve" value="Approve">
-                <input type="submit" class="btn btn-danger" name="deny" value="Deny">
+                {{#if client.scope}}
+                    <p><b>Scopes:</b></p>
+                    {{#each client.scope}}
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="{{this}}" checked>
+                                {{this}}
+                            </label>
+                        </div>
+                    {{/each}}
+                {{/if}}
+                <input type="submit" class="btn btn-success" name="decision" value="approve">
+                <input type="submit" class="btn btn-danger" name="decision" value="deny">
             </form>
         </div>
     </div>
