@@ -4,8 +4,9 @@
     "$filter": "env",
     "production": [
       {
-        "port": 8080,
-        "labels": ["api"]
+        "port": 9005,
+        "labels": ["oauth2"],
+        "routes": { "cors": true }
       }
     ],
     "$default": [
@@ -13,10 +14,6 @@
         "port": 9005,
         "labels": ["oauth2"],
         "routes": { "cors": true }
-      },
-      {
-        "port": 9007,
-        "labels": ["admin"]
       }
     ]
   },
@@ -66,15 +63,6 @@
         "select": ["oauth2"],
         "routes": {
           "prefix": "/oauth2"
-        }
-      }
-    },
-    {
-      "plugin": "./lib/modules/authUI/index",
-      "options": {
-        "select": ["admin"],
-        "routes": {
-          "prefix": "/ui"
         }
       }
     }
