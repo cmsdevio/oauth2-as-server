@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Oauth2 Authorization Server with hapi.js",
   "main": "index.js",
+  "scripts": {
+    "start": "nodemon -w . index.js"
+  },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
   "author": "philcms1 <phil@soaarchitects.com>",
   "license": "MIT",
@@ -30,6 +33,7 @@
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.3",
     "randomstring": "^1.1.5",
+    "tv": "^6.1.0",
     "vision": "^4.1.1",
     "wreck": "^12.2.2"
   },

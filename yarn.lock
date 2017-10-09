@@ -57,6 +57,12 @@ b64@3.x.x:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/b64/-/b64-3.0.2.tgz#7a9d60466adf7b8de114cbdf651a5fdfcc90894d"
 
+backbone@1.3.x:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.3.3.tgz#4cc80ea7cb1631ac474889ce40f2f8bc683b2999"
+  dependencies:
+    underscore ">=1.8.3"
+
 base64url@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/base64url/-/base64url-2.0.0.tgz#eac16e03ea1438eff9423d69baa36262ed1f70bb"
@@ -87,7 +93,7 @@ boom@5.x.x, boom@^5.2.0:
   dependencies:
     hoek "4.x.x"
 
-bootstrap@^3.3.7:
+bootstrap@3.3.x, bootstrap@^3.3.7:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
 
@@ -138,6 +144,10 @@ center-align@^0.1.1:
   dependencies:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
+
+chance@1.0.x:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.0.11.tgz#48e82f7583df356053e0ad122d4654c5066c570d"
 
 cliui@^2.1.0:
   version "2.1.0"
@@ -286,7 +296,7 @@ graceful-fs@^4.1.2:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-handlebars@4.x.x, handlebars@^4.0.10:
+handlebars@4.0.x, handlebars@4.x.x, handlebars@^4.0.10:
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.10.tgz#3d30c718b09a3d96f23ea4cc1f403c4d3ba9ff4f"
   dependencies:
@@ -334,6 +344,13 @@ hapi-auth-cookie@^7.0.0:
     statehood "5.x.x"
     subtext "5.x.x"
     topo "2.x.x"
+
+hbsfy@2.7.x:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/hbsfy/-/hbsfy-2.7.0.tgz#d879062db6e8bc18114824b75c2d3c608e181b73"
+  dependencies:
+    through "~2.3.4"
+    xtend "~3.0.0"
 
 heavy@4.x.x:
   version "4.0.4"
@@ -445,9 +462,17 @@ joi@8.x.x:
     moment "2.x.x"
     topo "2.x.x"
 
+jquery@3.1.x:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
+
 jquery@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
+json-markup@1.1.x:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/json-markup/-/json-markup-1.1.0.tgz#4ab1cda4e9b9fa3c7376094ffac3ef1d4e55c607"
 
 json-stringify-safe@5.0.x:
   version "5.0.1"
@@ -491,7 +516,7 @@ lodash.assign@^4.0.3, lodash.assign@^4.0.6:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
 
-lodash@^4.14.0, lodash@^4.17.4:
+lodash@4.17.x, lodash@^4.14.0, lodash@^4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -532,6 +557,10 @@ minimist@~0.0.1:
 moment@2.15.x:
   version "2.15.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.15.2.tgz#1bfdedf6a6e345f322fe956d5df5bd08a8ce84dc"
+
+moment@2.17.x:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
 
 moment@2.x.x:
   version "2.18.1"
@@ -654,6 +683,10 @@ optimist@^0.6.1:
   dependencies:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
+
+options@>=0.0.5:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
 
 os-locale@^1.4.0:
   version "1.4.0"
@@ -916,11 +949,32 @@ subtext@5.x.x:
     pez "2.x.x"
     wreck "12.x.x"
 
+through@~2.3.4:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
+
 topo@2.x.x:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/topo/-/topo-2.0.2.tgz#cd5615752539057c0dc0491a621c3bc6fbe1d182"
   dependencies:
     hoek "4.x.x"
+
+tv@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/tv/-/tv-6.1.0.tgz#336bab248ce84e709fedd4b73321196b1e0fecff"
+  dependencies:
+    backbone "1.3.x"
+    bootstrap "3.3.x"
+    chance "1.0.x"
+    handlebars "4.0.x"
+    hbsfy "2.7.x"
+    hoek "4.x.x"
+    jquery "3.1.x"
+    json-markup "1.1.x"
+    lodash "4.17.x"
+    moment "2.17.x"
+    ws "1.1.x"
+    zeroclipboard "2.3.x"
 
 uglify-js@^2.6:
   version "2.8.29"
@@ -934,6 +988,14 @@ uglify-js@^2.6:
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
+
+ultron@1.0.x:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
+underscore@>=1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 util-deprecate@~1.0.1:
   version "1.0.2"
@@ -999,6 +1061,17 @@ wreck@12.x.x, wreck@^12.2.2:
     boom "5.x.x"
     hoek "4.x.x"
 
+ws@1.1.x:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.4.tgz#57f40d036832e5f5055662a397c4de76ed66bf61"
+  dependencies:
+    options ">=0.0.5"
+    ultron "1.0.x"
+
+xtend@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/xtend/-/xtend-3.0.0.tgz#5cce7407baf642cba7becda568111c493f59665a"
+
 y18n@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
@@ -1041,3 +1114,7 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+zeroclipboard@2.3.x:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/zeroclipboard/-/zeroclipboard-2.3.0.tgz#592ebd833a4308688b0739697d3dbf989002c9af"
