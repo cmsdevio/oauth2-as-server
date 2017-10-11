@@ -1,17 +1,18 @@
-const Confidence = require('confidence');
 const Glue = require('glue');
-const config = require('./config');
 
-const store = new Confidence.Store(config);
-
-// const Manifest = store.get('/', { env: process.env.NODE_ENV });
 const Manifest = {
     server: {},
-    connections: [{
-        port: process.env.PORT || 9005,
-        labels: ["oauth2"],
-        routes: { cors: true }
-    }],
+    connections: [
+        {
+            port: process.env.PORT || 9005,
+            labels: ["oauth2"],
+            routes: { cors: true }
+        },
+        {
+            port: process.env.PORT_ADMIN || 9007,
+            labels: ["admin"]
+        }
+    ],
     registrations: [
         {
             plugin: {
@@ -56,6 +57,12 @@ const Manifest = {
             plugin: "hapi-auth-bearer-token"
         },
         {
+            plugin: {
+                register: "./lib/modules/caching/index",
+                options: {}
+            }
+        },
+        {
             plugin: "./lib/modules/authServer/index",
             options: {
                 select: ["oauth2"],
@@ -63,7 +70,16 @@ const Manifest = {
                     prefix: "/oauth2"
                 }
             }
-        }
+        },
+        /*{
+            plugin: "./lib/modules/authUI/index",
+            options: {
+                select: ["admin"],
+                routes: {
+                    prefix: "/ui"
+                }
+            }
+        }*/
     ]
 };
 
