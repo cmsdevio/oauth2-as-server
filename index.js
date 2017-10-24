@@ -90,6 +90,12 @@ Glue.compose(Manifest, options, (err, server) => {
         throw err;
     }
 
+    server.app.oauth_options = {
+        jwt: {
+            exp: 315576000 // 10 years in seconds
+        }
+    };
+
     server.start((error) => {
         if (error) {
             throw error;
