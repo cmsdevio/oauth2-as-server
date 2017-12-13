@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const Glue = require('glue');
 
 const Manifest = {
@@ -5,81 +6,72 @@ const Manifest = {
     connections: [
         {
             port: process.env.PORT || 9005,
-            labels: ["oauth2"],
+            labels: [ 'oauth2' ],
             routes: { cors: true }
         },
         {
             port: process.env.PORT_ADMIN || 9007,
-            labels: ["admin"]
+            labels: [ 'admin' ]
         }
     ],
     registrations: [
         {
             plugin: {
-                register: "good",
+                register: 'good',
                 options: {
                     reporters: {
                         console: [
                             {
-                                module: "good-squeeze",
-                                name: "Squeeze",
-                                args: [{
-                                    log: "*",
-                                    request: "*",
-                                    response: ["oauth2-*", "ui-*"]
-                                }]
+                                module: 'good-squeeze',
+                                name: 'Squeeze',
+                                args: [ {
+                                    log: '*',
+                                    request: '*',
+                                    response: [ 'oauth2-*' ]
+                                } ]
                             },
                             {
-                                module: "good-console"
+                                module: 'good-console'
                             },
-                            "stdout"
+                            'stdout'
                         ]
                     }
                 }
             }
         },
         {
-            plugin: "vision"
+            plugin: 'vision'
         },
         {
-            plugin: "inert"
+            plugin: 'inert'
         },
         {
-            plugin: "lout"
+            plugin: 'lout'
         },
         {
-            plugin: "tv"
+            plugin: 'tv'
         },
         {
-            plugin: "hapi-auth-cookie"
+            plugin: 'hapi-auth-cookie'
         },
         {
-            plugin: "hapi-auth-bearer-token"
+            plugin: 'hapi-auth-bearer-token'
         },
         {
             plugin: {
-                register: "./lib/modules/caching/index",
+                register: './lib/modules/caching/index',
                 options: {}
             }
         },
         {
-            plugin: "./lib/modules/authServer/index",
+            plugin: './lib/modules/authServer/index',
             options: {
-                select: ["oauth2"],
+                select: [ 'oauth2' ],
                 routes: {
-                    prefix: "/oauth2"
+                    prefix: '/oauth2'
                 }
             }
-        },
-        /*{
-            plugin: "./lib/modules/authUI/index",
-            options: {
-                select: ["admin"],
-                routes: {
-                    prefix: "/ui"
-                }
-            }
-        }*/
+        }
     ]
 };
 
@@ -100,6 +92,6 @@ Glue.compose(Manifest, options, (err, server) => {
         if (error) {
             throw error;
         }
-        console.log(`Server started...`);
+        console.log('Server started...');
     });
 });
