@@ -1,6 +1,11 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-multi-assign */
+const expect = require('chai').expect;
+const Lab = require('lab');
 const Glue = require('glue');
 
+// *************************************************
+// GLU CONFIG
+// *************************************************
 const Manifest = {
     server: {},
     connections: [
@@ -52,7 +57,7 @@ const Manifest = {
             plugin: 'tv'
         },
         {
-            plugin: './lib/modules/database/index'
+            plugin: './lib/modules/mocks/database/index'
         },
         {
             plugin: 'hapi-auth-cookie'
@@ -77,32 +82,30 @@ const Manifest = {
         }
     ]
 };
+const options = { relativeTo: `${ __dirname }/..` };
 
-const options = { relativeTo: __dirname };
+// *************************************************
+// LAB CONFIG
+// *************************************************
+const lab = exports.lab = Lab.script();
+const { suite, test } = lab;
+const beforeEach = lab.before;
+let server;
 
-Glue.compose(Manifest, options, (err, server) => {
-    if (err) {
-        throw err;
-    }
+// *************************************************
+// TESTING SUITE
+// *************************************************
+suite('Dynamic Client Registration', () => {
+    beforeEach(() => {
+        Glue.compose(Manifest, options, (err, srv) => {
+            if (err) {
+                throw err;
+            }
+            server = srv;
+        });
+    });
 
-    server.app.oauthOptions = {
-        jwt: {
-            exp: 315576000 // 10 years in seconds
-        },
-        dcr: {
-            clientIdLength: 35,
-            clientSecretLength: 50,
-            defaultGrantType: 'authorization_code',
-            defaultResponseType: 'code',
-            defaultTokenEndpointAuthMethod: 'client_secret_basic',
-            clientSecretExpiration: 0
-        }
-    };
-
-    server.start((error) => {
-        if (error) {
-            throw error;
-        }
-        console.log('Server started...');
+    test('works', () => {
+        expect(10).to.equal(10);
     });
 });

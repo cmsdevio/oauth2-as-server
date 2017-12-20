@@ -4,7 +4,8 @@
   "description": "Oauth2 Authorization Server with hapi.js",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -w . index.js"
+    "start": "nodemon -w . index.js",
+    "test": "lab"
   },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
   "author": "philcms1 <phil@soaarchitects.com>",
