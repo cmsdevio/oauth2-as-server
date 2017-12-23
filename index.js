@@ -8,10 +8,6 @@ const Manifest = {
             port: process.env.PORT || 9005,
             labels: [ 'oauth2' ],
             routes: { cors: true }
-        },
-        {
-            port: process.env.PORT_ADMIN || 9007,
-            labels: [ 'admin' ]
         }
     ],
     registrations: [
