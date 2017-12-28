@@ -94,7 +94,7 @@ let server;
 const dcrReqData = {
     client_name: 'restlet_client_5328',
     redirect_uris: [ 'http://localhost:1234/dummy' ],
-    // grant_types: [ 'client_credentials' ],
+    grant_types: [ 'client_credentials' ],
     response_type: 'token',
     token_endpoint_auth_method: 'client_secret_basic'
 };
@@ -109,25 +109,39 @@ suite('Dynamic Client Registration', () => {
                 throw err;
             }
             server = srv;
+            server.app.oauthOptions = {
+                jwt: {
+                    exp: 315576000 // 10 years in seconds
+                },
+                dcr: {
+                    clientIdLength: 35,
+                    clientSecretLength: 50,
+                    defaultGrantType: 'authorization_code',
+                    defaultResponseType: 'code',
+                    defaultTokenEndpointAuthMethod: 'client_secret_basic',
+                    clientSecretExpiration: 0
+                }
+            };
         });
     });
 
     test('should dynamically register a client', () => {
         const expectedPayload = {
-            client_name: 'restlet_client_5328',
+            client_name: 'restlet_client_5327',
             redirect_uris: [ 'http://localhost:1234/dummy' ],
             grant_types: [ 'client_credentials' ],
             response_type: 'token',
             token_endpoint_auth_method: 'client_secret_basic',
-            client_id: 'fq56e5Ci1iHYSOxh6tveFpKEaMta5AG4WZC',
-            client_secret: 'CMQuAx3ggYhy7fT4umnzfZvNf16hlFgGvPmoirENIdmMNR3rRf',
-            client_id_created_at: 1513791878,
-            client_secret_expires_at: 0
+            client_id: '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyK',
+            client_secret: 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4',
+            client_id_created_at: 1513791723,
+            client_secret_expires_at: 0,
+            isActive: true
         };
         const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqData };
 
         server.inject(request, (res) => {
-            expect(res.statusCode).to.equal(200);
+            expect(res.statusCode).to.equal(201);
             expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
         });
     });
@@ -140,17 +154,18 @@ suite('Dynamic Client Registration', () => {
         });
     });
 
-    /*test.skip('should populate the DCR client with default value for token endpoint', () => {
+    test('should populate the DCR client with default value for token endpoint', () => {
         const expectedPayload = {
-            client_name: 'restlet_client_5328',
+            client_name: 'restlet_client_5327',
             redirect_uris: [ 'http://localhost:1234/dummy' ],
             grant_types: [ 'client_credentials' ],
             response_type: 'token',
             token_endpoint_auth_method: 'client_secret_basic',
-            client_id: 'fq56e5Ci1iHYSOxh6tveFpKEaMta5AG4WZC',
-            client_secret: 'CMQuAx3ggYhy7fT4umnzfZvNf16hlFgGvPmoirENIdmMNR3rRf',
-            client_id_created_at: 1513791878,
-            client_secret_expires_at: 0
+            client_id: '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyK',
+            client_secret: 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4',
+            client_id_created_at: 1513791723,
+            client_secret_expires_at: 0,
+            isActive: true
         };
         const dcrReqDataNoTokenEndpointAuth = {
             client_name: 'restlet_client_5328',
@@ -161,8 +176,8 @@ suite('Dynamic Client Registration', () => {
         const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqDataNoTokenEndpointAuth };
 
         server.inject(request, (res) => {
-            expect(res.statusCode).to.equal(200);
+            expect(res.statusCode).to.equal(201);
             expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
         });
-    });*/
+    });
 });
