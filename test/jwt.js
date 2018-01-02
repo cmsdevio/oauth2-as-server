@@ -3,6 +3,7 @@ const { expect } = require('chai');
 const Lab = require('lab');
 const Glue = require('glue');
 const qs = require('qs');
+const querystring = require('querystring');
 const OAuthUtils = require('../lib/modules/authServer/utils/oauth-util');
 
 // *************************************************
@@ -145,7 +146,11 @@ suite('JWT Token', () => {
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(200);
-            // expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
+            // const tokenParts = res.payload.access_token.split('.');
+            // expect(tokenParts.length).to.equal(3);
+            // const jwtbody =
+            // JSON.parse(querystring.unescape(Buffer.from(tokenParts[1], 'base64').toString()));
+            // console.log(jwtbody);
         });
     });
 });
