@@ -6,7 +6,7 @@
   "scripts": {
     "start:mon": "nodemon -w . index.js",
     "start": "node index.js",
-    "test": "lab"
+    "test": "mocha --exit"
   },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
   "author": "philcms1 <phil@soaarchitects.com>",
@@ -34,6 +34,7 @@
     "lout": "^10.0.2",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.3",
+    "qs": "^6.5.1",
     "randomstring": "^1.1.5",
     "tv": "^6.1.0",
     "vision": "^4.1.1",
@@ -51,7 +52,7 @@
     "eslint-plugin-react": "^7.5.1",
     "jquery": "^3.2.1",
     "lab": "^15.1.2",
-    "mocha": "^4.0.1",
+    "mocha": "^4.1.0",
     "sinon": "^4.1.3"
   }
 }

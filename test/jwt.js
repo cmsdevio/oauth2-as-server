@@ -1,6 +1,9 @@
 /* eslint-disable no-multi-assign,no-param-reassign */
 const { expect } = require('chai');
 const Glue = require('glue');
+const qs = require('qs');
+const querystring = require('querystring');
+const OAuthUtils = require('../lib/modules/authServer/utils/oauth-util');
 
 // *************************************************
 // GLU CONFIG
@@ -83,29 +86,15 @@ const options = { relativeTo: `${ __dirname }/..` };
 // Utility functions and variables
 // *************************************************
 let server;
-const dcrReqData = {
-    client_name: 'restlet_client_5328',
-    redirect_uris: [ 'http://localhost:1234/dummy' ],
-    grant_types: [ 'client_credentials' ],
-    response_type: 'token',
-    token_endpoint_auth_method: 'client_secret_basic'
+const tokenReqData = {
+    grant_type: 'client_credentials',
+    redirect_uri: 'http://localhost:1234/dummy'
 };
-const expectedPayload = {
-    client_name: 'restlet_client_5327',
-    redirect_uris: [ 'http://localhost:1234/dummy' ],
-    grant_types: [ 'client_credentials' ],
-    response_type: 'token',
-    token_endpoint_auth_method: 'client_secret_basic',
-    client_id: '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyK',
-    client_secret: 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4',
-    client_id_created_at: 1513791723,
-    client_secret_expires_at: 0,
-    isActive: true
-};
+
 // *************************************************
 // TESTING SUITE
 // *************************************************
-describe('Dynamic Client Registration', () => {
+describe('JWT Token', () => {
     beforeEach((done) => {
         Glue.compose(Manifest, options, (err, srv) => {
             if (err) {
@@ -114,7 +103,13 @@ describe('Dynamic Client Registration', () => {
             server = srv;
             server.app.oauthOptions = {
                 jwt: {
-                    exp: 315576000 // 10 years in seconds
+                    exp: 315576000, // 10 years in seconds
+                    secretKey: process.env.JWT_SECRET_KEY || 'OCW6s6K5yAtdLI2b/7GZpzWQNmxwmb5IF1bb1xv9WHQoBH/+Y9WBMyb9OSJfGvS+2Iza8g0U2oZhupVIjvJw4HVHIYZIGdcJJhvnrI0i3kRIB1HWAz0eh2myjFs7B5ZHM2vYBHxYdXUnEceg11RhClAc3+jLuCTkaDYbHwhZehHBIiTiLb1fSoF7x70tUAGrikChsfSKx7Kr+OKca7osk79e57jG67qG2hK0jevV/SCM/nOmw0HFke62GHM8HkY3nIQTWQ1p4o3VUta80C9ADU3Cs1DagUCyO/rYVD/WVgzv26YC8Ed8OIj3Rjby+OgJTGSL1SZKvuIVuIGObCAFHA==',
+                    issuer: process.env.JWT_ISSUER || 'http://localhost:9007/',
+                    protectedResource: process.env.PROTECTED_RESOURCE || 'http://localhost:4000/',
+                    defaultTokenType: 'jwt_signed',
+                    supportedTokenTypes: [ 'jwt_signed', 'jwt_unsigned', 'random_str' ],
+                    defaultTokenAuth: 'Bearer'
                 },
                 dcr: {
                     clientIdLength: 35,
@@ -129,34 +124,28 @@ describe('Dynamic Client Registration', () => {
         });
     });
 
-    it('should dynamically register a client', (done) => {
-        const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqData };
-
-        server.inject(request, (res) => {
-            expect(res.statusCode).to.equal(201);
-            expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
-            done();
-        });
-    });
-
-    it('should reject invalid grant/response type combinations', () => {
-        const request = { method: 'POST', url: '/oauth2/register', payload: { ...dcrReqData, response_type: 'code' } };
-
-        server.inject(request, (res) => {
-            expect(res.statusCode).to.equal(400);
-        });
-    });
-
-    it('should populate the DCR client with default values', () => {
-        const dcrReqDataNoTokenEndpointAuth = {
-            client_name: 'restlet_client_5328',
-            redirect_uris: [ 'http://localhost:1234/dummy' ]
+    it('should generate a JWT token for Client Credentials grant type', (done) => {
+        const clientId = '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyK';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: qs.stringify(tokenReqData),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
+            }
         };
-        const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqDataNoTokenEndpointAuth };
 
         server.inject(request, (res) => {
-            expect(res.statusCode).to.equal(201);
-            expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
+            expect(res.statusCode).to.equal(200);
+            const tokenParts = JSON.parse(res.payload).access_token.split('.');
+            expect(tokenParts.length).to.equal(3);
+            const jwtbody =
+            JSON.parse(querystring.unescape(Buffer.from(tokenParts[1], 'base64').toString()));
+            expect(jwtbody.iss).to.equal('http://localhost:9007/');
+            expect(jwtbody.aud).to.equal('http://localhost:4000/');
+            done();
         });
     });
 });
