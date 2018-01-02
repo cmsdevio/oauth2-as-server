@@ -1,6 +1,5 @@
 /* eslint-disable no-multi-assign,no-param-reassign */
 const { expect } = require('chai');
-const Lab = require('lab');
 const Glue = require('glue');
 
 // *************************************************
@@ -81,16 +80,9 @@ const Manifest = {
 const options = { relativeTo: `${ __dirname }/..` };
 
 // *************************************************
-// LAB CONFIG
-// *************************************************
-const lab = exports.lab = Lab.script();
-const { suite, test } = lab;
-const beforeEach = lab.before;
-let server;
-
-// *************************************************
 // Utility functions and variables
 // *************************************************
+let server;
 const dcrReqData = {
     client_name: 'restlet_client_5328',
     redirect_uris: [ 'http://localhost:1234/dummy' ],
@@ -113,8 +105,8 @@ const expectedPayload = {
 // *************************************************
 // TESTING SUITE
 // *************************************************
-suite.skip('Dynamic Client Registration', () => {
-    beforeEach(() => {
+describe('Dynamic Client Registration', () => {
+    beforeEach((done) => {
         Glue.compose(Manifest, options, (err, srv) => {
             if (err) {
                 throw err;
@@ -133,19 +125,21 @@ suite.skip('Dynamic Client Registration', () => {
                     clientSecretExpiration: 0
                 }
             };
+            done();
         });
     });
 
-    test('should dynamically register a client', () => {
+    it('should dynamically register a client', (done) => {
         const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqData };
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(201);
             expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
+            done();
         });
     });
 
-    test('should reject invalid grant/response type combinations', () => {
+    it('should reject invalid grant/response type combinations', () => {
         const request = { method: 'POST', url: '/oauth2/register', payload: { ...dcrReqData, response_type: 'code' } };
 
         server.inject(request, (res) => {
@@ -153,7 +147,7 @@ suite.skip('Dynamic Client Registration', () => {
         });
     });
 
-    test('should populate the DCR client with default values', () => {
+    it('should populate the DCR client with default values', () => {
         const dcrReqDataNoTokenEndpointAuth = {
             client_name: 'restlet_client_5328',
             redirect_uris: [ 'http://localhost:1234/dummy' ]

@@ -1,6 +1,5 @@
 /* eslint-disable no-multi-assign,no-param-reassign */
 const { expect } = require('chai');
-const Lab = require('lab');
 const Glue = require('glue');
 const qs = require('qs');
 const querystring = require('querystring');
@@ -84,16 +83,9 @@ const Manifest = {
 const options = { relativeTo: `${ __dirname }/..` };
 
 // *************************************************
-// LAB CONFIG
-// *************************************************
-const lab = exports.lab = Lab.script();
-const { suite, test } = lab;
-const beforeEach = lab.before;
-let server;
-
-// *************************************************
 // Utility functions and variables
 // *************************************************
+let server;
 const tokenReqData = {
     grant_type: 'client_credentials',
     redirect_uri: 'http://localhost:1234/dummy'
@@ -102,8 +94,8 @@ const tokenReqData = {
 // *************************************************
 // TESTING SUITE
 // *************************************************
-suite('JWT Token', () => {
-    beforeEach(() => {
+describe('JWT Token', () => {
+    beforeEach((done) => {
         Glue.compose(Manifest, options, (err, srv) => {
             if (err) {
                 throw err;
@@ -128,10 +120,11 @@ suite('JWT Token', () => {
                     clientSecretExpiration: 0
                 }
             };
+            done();
         });
     });
 
-    test('should generate a JWT token for Client Credentials grant type', () => {
+    it('should generate a JWT token for Client Credentials grant type', (done) => {
         const clientId = '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyK';
         const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
         const request = {
@@ -146,11 +139,13 @@ suite('JWT Token', () => {
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(200);
-            // const tokenParts = res.payload.access_token.split('.');
-            // expect(tokenParts.length).to.equal(3);
-            // const jwtbody =
-            // JSON.parse(querystring.unescape(Buffer.from(tokenParts[1], 'base64').toString()));
-            // console.log(jwtbody);
+            const tokenParts = JSON.parse(res.payload).access_token.split('.');
+            expect(tokenParts.length).to.equal(3);
+            const jwtbody =
+            JSON.parse(querystring.unescape(Buffer.from(tokenParts[1], 'base64').toString()));
+            expect(jwtbody.iss).to.equal('http://localhost:9007/');
+            expect(jwtbody.aud).to.equal('http://localhost:4000/');
+            done();
         });
     });
 });
