@@ -9,7 +9,7 @@
     "test": "mocha --exit"
   },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
-  "author": "philcms1 <phil@soaarchitects.com>",
+  "author": "philcms1 <phil@cmsdev.io>",
   "license": "MIT",
   "dependencies": {
     "accept": "^2.1.4",

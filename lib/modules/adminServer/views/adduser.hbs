@@ -1,0 +1,44 @@
+<div class="container theme-showcase" role="main">
+    <div class="page-header">
+        <h1>Add User</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" action="/ui/adduser" method="post" novalidate>
+                <input type="hidden" name="req_id" value={{req_id}}>
+                <div class="form-group {{#if errors.email}}has-error{{/if}}">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" name="email" value="{{values.email}}" class="form-control" id="inputEmail" placeholder="Email" aria-describedby="helpBlockEmail">
+                        {{#if errors.email}}
+                            <span id="helpBlockEmail" class="help-block">{{errors.email}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.password}}has-error{{/if}}">
+                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password" value="{{values.password}}" class="form-control" id="inputPassword" placeholder="Password" aria-describedby="helpBlockPwd">
+                        {{#if errors.password}}
+                            <span id="helpBlockPwd" class="help-block">{{errors.password}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.rePassword}}has-error{{/if}}">
+                    <label for="inputRePassword" class="col-sm-2 control-label">Re-enter Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="rePassword" class="form-control" id="inputRePassword" placeholder="Verify your password" aria-describedby="helpBlockRePwd">
+                        {{#if errors.rePassword}}
+                            <span id="helpBlockRePwd" class="help-block">{{errors.rePassword}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-default">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

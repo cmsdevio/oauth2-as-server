@@ -8,6 +8,10 @@ const Manifest = {
             port: process.env.PORT || 9005,
             labels: [ 'oauth2' ],
             routes: { cors: true }
+        },
+        {
+            port: process.env.PORT_UI || 9007,
+            labels: [ 'admin' ]
         }
     ],
     registrations: [
@@ -68,6 +72,15 @@ const Manifest = {
                 select: [ 'oauth2' ],
                 routes: {
                     prefix: '/oauth2'
+                }
+            }
+        },
+        {
+            plugin: './lib/modules/adminServer/index',
+            options: {
+                select: [ 'admin' ],
+                routes: {
+                    prefix: '/admin'
                 }
             }
         }

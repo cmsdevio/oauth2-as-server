@@ -1,0 +1,19 @@
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h1>OAuth2 Authorization Server</h1>
+        <p>Hapi.js based Oauth2 compliant server.</p>
+        {{#if user}}
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            User information
+                        </a>
+                        <a href="#" class="list-group-item">Token: {{user.token}}</a>
+                        <a href="#" class="list-group-item">Email: {{user.email}}</a>
+                    </div>
+                </div><!-- /.col-sm-4 -->
+            </div>
+        {{/if}}
+    </div>
+</div>

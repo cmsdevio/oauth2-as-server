@@ -1,0 +1,87 @@
+<div class="container theme-showcase" role="main">
+    <div class="page-header">
+        <h1>Add Client</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" action="/ui/addclient" method="post" novalidate>
+                <input type="hidden" name="req_id" value={{req_id}}>
+                <div class="form-group {{#if errors.client_id}}has-error{{/if}}">
+                    <label for="inputClientId" class="col-sm-2 control-label">Client ID</label>
+                    <div class="col-sm-10">
+                        <input name="client_id" value="{{values.client_id}}" class="form-control" id="inputClientId" placeholder="Client ID" aria-describedby="helpBlockClientId">
+                        {{#if errors.client_id}}
+                            <span id="helpBlockClientId" class="help-block">{{errors.client_id}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.client_secret}}has-error{{/if}}">
+                    <label for="inputClientSecret" class="col-sm-2 control-label">Client Secret</label>
+                    <div class="col-sm-10">
+                        <input name="client_secret" value="{{values.client_secret}}" class="form-control" id="inputClientSecret"
+                               placeholder="Client Secret" aria-describedby="helpBlockSecret">
+                        {{#if errors.client_secret}}
+                            <span id="helpBlockSecret" class="help-block">{{errors.client_secret}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.scope}}has-error{{/if}}">
+                    <label for="inputScope" class="col-sm-2 control-label">Scope</label>
+                    <div class="col-sm-10">
+                        <input name="scope" value="{{values.scope}}" class="form-control" id="inputScope"
+                               placeholder="Space separated strings" aria-describedby="helpBlockScope">
+                        {{#if errors.scope}}
+                            <span id="helpBlockScope" class="help-block">{{errors.scope}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.redirect_uri}}has-error{{/if}}">
+                    <label for="inputRedirectUri" class="col-sm-2 control-label">Redirect URI</label>
+                    <div class="col-sm-10">
+                        <input name="redirect_uri" value="{{values.redirect_uri}}" class="form-control" id="inputRedirectUri"
+                               placeholder="Redirect URI" aria-describedby="helpBlockRedirect">
+                        {{#if errors.redirect_uri}}
+                            <span id="helpBlockRedirect" class="help-block">{{errors.redirect_uri}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.redirect_uri_1}}has-error{{/if}}">
+                    <label for="inputRedirectUri1" class="col-sm-2 control-label">Redirect URI -- Optional</label>
+                    <div class="col-sm-10">
+                        <input name="redirect_uri_1" value="{{values.redirect_uri_1}}" class="form-control" id="inputRedirectUri1"
+                               placeholder="Redirect URI" aria-describedby="helpBlockRedirect">
+                        {{#if errors.redirect_uri_1}}
+                            <span id="helpBlockRedirect" class="help-block">{{errors.redirect_uri_1}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.redirect_uri_2}}has-error{{/if}}">
+                    <label for="inputRedirectUri2" class="col-sm-2 control-label">Redirect URI -- Optional</label>
+                    <div class="col-sm-10">
+                        <input name="redirect_uri_2" value="{{values.redirect_uri_2}}" class="form-control" id="inputRedirectUri2"
+                               placeholder="Redirect URI" aria-describedby="helpBlockRedirect">
+                        {{#if errors.redirect_uri_2}}
+                            <span id="helpBlockRedirect" class="help-block">{{errors.redirect_uri_2}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group {{#if errors.redirect_uri_3}}has-error{{/if}}">
+                    <label for="inputRedirectUri3" class="col-sm-2 control-label">Redirect URI -- Optional</label>
+                    <div class="col-sm-10">
+                        <input name="redirect_uri_3" value="{{values.redirect_uri_3}}" class="form-control" id="inputRedirectUri3"
+                               placeholder="Redirect URI" aria-describedby="helpBlockRedirect">
+                        {{#if errors.redirect_uri_3}}
+                            <span id="helpBlockRedirect" class="help-block">{{errors.redirect_uri_3}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-default">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
