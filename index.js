@@ -27,7 +27,7 @@ const Manifest = {
                                 args: [ {
                                     log: '*',
                                     request: '*',
-                                    response: [ 'oauth2-*' ]
+                                    response: [ 'oauth2-*', 'admin-*' ]
                                 } ]
                             },
                             {
