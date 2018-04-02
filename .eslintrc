@@ -27,6 +27,7 @@
     "comma-dangle": [2, "never"],
     "no-console": 0,
     "no-underscore-dangle": 0,
+//    "arrow-body-style": 0,
     "valid-jsdoc": ["error", {
       "requireReturn": true,
       "requireReturnType": true,

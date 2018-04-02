@@ -11,7 +11,8 @@ const Manifest = {
         },
         {
             port: process.env.PORT_UI || 9007,
-            labels: [ 'admin' ]
+            labels: [ 'admin' ],
+            routes: { cors: true }
         }
     ],
     registrations: [

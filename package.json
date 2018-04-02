@@ -14,6 +14,7 @@
   "dependencies": {
     "accept": "^2.1.4",
     "axios": "^0.16.2",
+    "babel-polyfill": "^6.26.0",
     "base64url": "^2.0.0",
     "bcrypt": "^1.0.3",
     "bluebird": "^3.5.0",

@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import { logger } from 'redux-logger';
 
 import reducers from './reducers';
-import Header from './components/Header/Header.component';
+import Header from './components/Header.component';
 import LoginForm from './components/LoginForm';
 
 // Needed for onTouchTap

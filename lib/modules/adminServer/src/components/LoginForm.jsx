@@ -14,6 +14,8 @@ const styles = {
 class LoginForm extends Component {
     onButtonPressed = () => {
         console.log('Login button pressed...');
+        const { email, password } = this.props;
+        this.props.loginUser({ email, password });
     };
 
     renderButton = () => {
@@ -36,6 +38,7 @@ class LoginForm extends Component {
                     hintText="email@gmail.com"
                     floatingLabelText="Email"
                     onChange={(event, newValue) => this.props.emailChanged(newValue)}
+                    value={this.props.email}
                 />
                 <br />
                 <TextField
@@ -43,6 +46,7 @@ class LoginForm extends Component {
                     hintText="password"
                     floatingLabelText="Password"
                     onChange={(event, newValue) => this.props.passwordChanged(newValue)}
+                    value={this.props.password}
                 />
                 <br />
                 {this.renderButton()}
@@ -52,7 +56,9 @@ class LoginForm extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.auth.loading
+    loading: state.auth.loading,
+    email: state.auth.email,
+    password: state.auth.password
 });
 
 export default connect(mapStateToProps, actions)(LoginForm);
