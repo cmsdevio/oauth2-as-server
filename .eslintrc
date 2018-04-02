@@ -12,6 +12,8 @@
     "indent": [ 2, 4 ],
     "react/jsx-indent": [2, 4],
     "react/jsx-indent-props": [1, 4],
+    "react/prefer-stateless-function": 0,
+    "react/prop-types": 0,
 
     // spacing
 //    "space-in-parens": [ 2, "always" ],
@@ -31,7 +33,7 @@
       "requireParamDescription": true,
       "requireReturnDescription": true
     }],
-    "require-jsdoc": ["error", {
+    "require-jsdoc": [0, {
         "require": {
             "FunctionDeclaration": true,
             "MethodDefinition": true,

@@ -57,8 +57,8 @@
     "wreck": "^12.2.2"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.3",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-syntax-class-properties": "^6.13.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -80,6 +80,7 @@
     "jquery": "^3.2.1",
     "lab": "^15.1.2",
     "mocha": "^4.1.0",
+    "redux-devtools-extension": "^2.13.2",
     "sinon": "^4.1.3",
     "style-loader": "^0.20.3",
     "webpack": "^4.4.1",
