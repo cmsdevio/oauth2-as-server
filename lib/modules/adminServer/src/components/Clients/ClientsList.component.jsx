@@ -10,7 +10,7 @@ class ClientsList extends Component {
     }
 
     render() {
-        const { loading, error } = this.props;
+        const { loading, error, clients } = this.props;
 
         if (loading) {
             return <CircularProgress size={80} thickness={5} />;
@@ -18,16 +18,19 @@ class ClientsList extends Component {
         if (error) {
             return <div className="alert alert-danger">Oops! Something went wrong...</div>;
         }
+        if (clients.length === 0) {
+            return <div>No clients found.</div>;
+        }
 
         return (
-            <div>Hello, World!</div>
+            <div>TBD: table of clients...</div>
         );
     }
 }
 
 const mapStateToProps = state => ({
     loading: state.clients.loading,
-    clients: state.clients.clientsList,
+    clients: state.clients.listClients,
     error: state.clients.error
 });
 
