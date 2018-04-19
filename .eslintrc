@@ -27,6 +27,9 @@
     "comma-dangle": [2, "never"],
     "no-console": 0,
     "no-underscore-dangle": 0,
+    "class-methods-use-this": "off",
+    "jsx-a11y/anchor-is-valid": "0",
+    "spaced-comment": ["off"],
 //    "arrow-body-style": 0,
     "valid-jsdoc": ["error", {
       "requireReturn": true,

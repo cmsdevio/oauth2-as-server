@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <form class="form-horizontal" action="/ui/addclient" method="post" novalidate>
                 <input type="hidden" name="req_id" value={{req_id}}>
-                <div class="form-group {{#if errors.client_id}}has-error{{/if}}">
+                <!--<div class="form-group {{#if errors.client_id}}has-error{{/if}}">
                     <label for="inputClientId" class="col-sm-2 control-label">Client ID</label>
                     <div class="col-sm-10">
                         <input name="client_id" value="{{values.client_id}}" class="form-control" id="inputClientId" placeholder="Client ID" aria-describedby="helpBlockClientId">
@@ -24,7 +24,7 @@
                             <span id="helpBlockSecret" class="help-block">{{errors.client_secret}}</span>
                         {{/if}}
                     </div>
-                </div>
+                </div>-->
                 <div class="form-group {{#if errors.scope}}has-error{{/if}}">
                     <label for="inputScope" class="col-sm-2 control-label">Scope</label>
                     <div class="col-sm-10">
