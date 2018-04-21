@@ -83,6 +83,7 @@ const options = { relativeTo: `${ __dirname }/..` };
 // Utility functions and variables
 // *************************************************
 let server;
+const KEY_BEARER_TOKEN = '$2a$10$2hdf7zFYV.4RUgKxsmRtKuAA/H9dqK0ujIGOdbpm.ENah4iJaEDlm';
 const dcrReqData = {
     client_name: 'restlet_client_5328',
     redirect_uris: [ 'http://localhost:1234/dummy' ],
@@ -130,7 +131,14 @@ describe('Dynamic Client Registration', () => {
     });
 
     it('should dynamically register a client', (done) => {
-        const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqData };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/register',
+            payload: dcrReqData,
+            headers: {
+                Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
+            }
+        };
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(201);
@@ -140,7 +148,14 @@ describe('Dynamic Client Registration', () => {
     });
 
     it('should reject invalid grant/response type combinations', () => {
-        const request = { method: 'POST', url: '/oauth2/register', payload: { ...dcrReqData, response_type: 'code' } };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/register',
+            payload: { ...dcrReqData, response_type: 'code' },
+            headers: {
+                Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
+            }
+        };
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(400);
@@ -152,7 +167,14 @@ describe('Dynamic Client Registration', () => {
             client_name: 'restlet_client_5328',
             redirect_uris: [ 'http://localhost:1234/dummy' ]
         };
-        const request = { method: 'POST', url: '/oauth2/register', payload: dcrReqDataNoTokenEndpointAuth };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/register',
+            payload: dcrReqDataNoTokenEndpointAuth,
+            headers: {
+                Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
+            }
+        };
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(201);

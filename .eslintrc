@@ -4,11 +4,16 @@
   "env": {
     "node": true,
     "es6": true,
-    "mocha": true
+    "mocha": true,
+    "browser": true
   },
   "rules": {
     // indentation
     "indent": [ 2, 4 ],
+    "react/jsx-indent": [2, 4],
+    "react/jsx-indent-props": [1, 4],
+    "react/prefer-stateless-function": 0,
+    "react/prop-types": 0,
 
     // spacing
 //    "space-in-parens": [ 2, "always" ],
@@ -21,13 +26,18 @@
     "import/no-extraneous-dependencies": 0,
     "comma-dangle": [2, "never"],
     "no-console": 0,
+    "no-underscore-dangle": 0,
+    "class-methods-use-this": "off",
+    "jsx-a11y/anchor-is-valid": "0",
+    "spaced-comment": ["off"],
+//    "arrow-body-style": 0,
     "valid-jsdoc": ["error", {
       "requireReturn": true,
       "requireReturnType": true,
       "requireParamDescription": true,
       "requireReturnDescription": true
     }],
-    "require-jsdoc": ["error", {
+    "require-jsdoc": [0, {
         "require": {
             "FunctionDeclaration": true,
             "MethodDefinition": true,
