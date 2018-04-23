@@ -21,7 +21,7 @@ class ClientsList extends Component {
 
     renderTableRow(client) {
         return (
-            <tr>
+            <tr key={client._id}>
                 <td>{client.client_name}</td>
                 <td>{client.client_id_created_at}</td>
                 <td>{client.grant_type}</td>

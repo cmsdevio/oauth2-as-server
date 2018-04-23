@@ -3,12 +3,13 @@
  */
 import React from 'react';
 import { Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Header = () => (
     <Navbar>
         <Navbar.Header>
             <Navbar.Brand>
-                <a href="#home">OAuth2 Authorization Server</a>
+                <Link to="/">OAuth2 Authorization Server</Link>
             </Navbar.Brand>
         </Navbar.Header>
     </Navbar>

@@ -10,6 +10,7 @@ class LoginComponent extends Component {
     };
 
     render() {
+        console.log('here!');
         return (
             <div className="container theme-showcase" role="main">
                 <div className="page-header">
