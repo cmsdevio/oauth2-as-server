@@ -25,6 +25,8 @@ const store = createStore(
     undefined,
     compose(applyMiddleware(...middleware, routerMiddleware(history)))
 );
+// Export store for Axios configuration (token access)
+export default store;
 
 const App = () => (
     <Provider store={store}>
