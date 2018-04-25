@@ -15,6 +15,8 @@ import Header from './components/Header.component';
 import LoginForm from './components/Login/Login.component';
 import ClientsList from './components/Clients/ClientsList.component';
 import AddClient from './components/Clients/AddClient.component';
+import UsersList from './components/Users/UsersList.component';
+import AddUser from './components/Users/AddUser.component';
 
 const history = createHistory();
 const middleware = [ Promise, ReduxThunk, logger ];
@@ -32,6 +34,8 @@ const App = () => (
                 <Route exact path="/" component={LoginForm} />
                 <Route path="/clients" component={ClientsList} />
                 <Route path="/addClient" component={AddClient} />
+                <Route path="/users" component={UsersList} />
+                <Route path="/addUser" component={AddUser} />
             </div>
         </ConnectedRouter>
     </Provider>

@@ -100,6 +100,10 @@ Glue.compose(Manifest, options, (err, server) => {
         }
     };
 
+    server.app.adminOptions = {
+        sessionLength: 120000 // 2 minutes in milliseconds
+    };
+
     server.start((error) => {
         if (error) {
             throw error;
