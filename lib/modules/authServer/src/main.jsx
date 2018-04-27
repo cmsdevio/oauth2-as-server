@@ -9,7 +9,6 @@ import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { logger } from 'redux-logger';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-import axios from 'axios';
 
 import reducers from './reducers';
 import Header from './components/Header.component';
@@ -18,7 +17,7 @@ import ClientsList from './components/Clients/ClientsList.component';
 import AddClient from './components/Clients/AddClient.component';
 import UsersList from './components/Users/UsersList.component';
 import AddUser from './components/Users/AddUser.component';
-import { AS_AUTH_RESET } from './actions/types';
+import { injectStore } from './common/api';
 
 const history = createHistory();
 const middleware = [ Promise, ReduxThunk, logger ];
@@ -28,9 +27,7 @@ const store = createStore(
     compose(applyMiddleware(...middleware, routerMiddleware(history)))
 );
 
-// TODO: extract this to its own file -- i.e.: network-utils
-// Export store for Axios configuration (token access)
-export default store;
+injectStore(store);
 
 const App = () => (
     <Provider store={store}>

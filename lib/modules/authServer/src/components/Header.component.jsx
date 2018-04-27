@@ -17,7 +17,7 @@ class Header extends Component {
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
-                    {this.props.role === 'user' ?
+                    {this.props.role === 'admin' ?
                         <LinkContainer to="/users">
                             <NavItem eventKey={1}>Users</NavItem>
                         </LinkContainer>
