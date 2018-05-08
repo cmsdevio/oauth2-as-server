@@ -1,2 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 bundle.js
+*.woff2
+*.svg
+*.ttf
+*.eot
+*.woff
+lib/modules/authServer/node_modules/

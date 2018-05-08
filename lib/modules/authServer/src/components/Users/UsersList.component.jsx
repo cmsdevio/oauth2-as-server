@@ -5,27 +5,25 @@ import { Table } from 'react-bootstrap';
 
 import * as actions from '../../actions';
 
-class ClientsList extends Component {
+class UsersList extends Component {
     componentWillMount() {
-        this.props.getClients();
+        this.props.getUsers();
     }
 
-    renderAddClientButton() {
-        // return <h1><Link to="/addClient">Add Client</Link></h1>;
+    renderAddUserButton() {
         return (
             <p>
-                <Link className="btn btn-large btn-info" to="/addClient">Create Client</Link>
+                <Link className="btn btn-large btn-info" to="/addUser">Create User</Link>
             </p>
         );
     }
 
-    renderTableRow(client) {
+    renderTableRow(user) {
         return (
-            <tr>
-                <td>{client.client_name}</td>
-                <td>{client.client_id_created_at}</td>
-                <td>{client.grant_type}</td>
-                <td>{client.client_id}</td>
+            <tr key={user._id}>
+                <td>{user.email}</td>
+                <td>{user.created_at}</td>
+                <td>{user.role}</td>
                 <td>
                     <div className="btn-group" role="group" aria-label="...">
                         <button type="button" className="btn btn-default">
@@ -51,19 +49,16 @@ class ClientsList extends Component {
     }
 
     render() {
-        const { loading, error, clients } = this.props;
+        const { error, users } = this.props;
 
-        /*if (loading) {
-            return <CircularProgress size={80} thickness={5} />;
-        }*/
         if (error) {
             return <div className="alert alert-danger">Oops! Something went wrong...</div>;
         }
-        if (clients.length === 0) {
+        if (users.length === 0) {
             return (
                 <div>
-                    No clients found.
-                    {this.renderAddClientButton()}
+                    No users found.
+                    {this.renderAddUserButton()}
                 </div>
             );
         }
@@ -71,25 +66,24 @@ class ClientsList extends Component {
         return (
             <div className="container theme-showcase" role="main">
                 <div className="page-header">
-                    <h1>List Clients</h1>
+                    <h1>List Users</h1>
                 </div>
                 <div className="row">
                     <div className="col-md-12">
                         <Table striped bordered condensed hover>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Email</th>
                                     <th>Creation Date</th>
-                                    <th>Grant Type</th>
-                                    <th>Client ID</th>
+                                    <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {clients.map(client => this.renderTableRow(client))}
+                                {users.map(user => this.renderTableRow(user))}
                             </tbody>
                         </Table>
-                        {this.renderAddClientButton()}
+                        {this.renderAddUserButton()}
                     </div>
                 </div>
             </div>
@@ -98,9 +92,9 @@ class ClientsList extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.clients.loading,
-    clients: state.clients.listClients,
-    error: state.clients.error
+    loading: state.users.loading,
+    error: state.users.error,
+    users: state.users.listUsers
 });
 
-export default connect(mapStateToProps, actions)(ClientsList);
+export default connect(mapStateToProps, actions)(UsersList);
