@@ -60,9 +60,16 @@ class ClientsList extends Component {
         }
         if (clients.length === 0) {
             return (
-                <div>
-                    No clients found.
-                    {this.renderAddClientButton()}
+                <div className="container theme-showcase" role="main">
+                    <div className="page-header">
+                        <h1>List Clients</h1>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            No clients found.
+                            {this.renderAddClientButton()}
+                        </div>
+                    </div>
                 </div>
             );
         }
