@@ -4,6 +4,7 @@
   "description": "Oauth2 Authorization Server with hapi.js",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config ./lib/modules/authServer/webpack.config.js --progress --colors",
     "start:mon": "nodemon -w . index.js",
     "start": "node index.js",
     "test": "mocha --exit"
