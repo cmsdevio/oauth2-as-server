@@ -40,9 +40,6 @@ const Manifest = {
             {
                 plugin: 'lout'
             },
-            // {
-            //     plugin: 'tv'
-            // },
             {
                 plugin: './lib/modules/database/index'
             },
@@ -95,7 +92,6 @@ const init = async () => {
         await server.start();
 
         console.log(`Server running at: ${ server.info.uri }`);
-
     } catch (error) {
         console.error(error);
     }
