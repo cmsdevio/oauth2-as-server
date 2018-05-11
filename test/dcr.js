@@ -106,7 +106,7 @@ const expectedPayload = {
 // *************************************************
 // TESTING SUITE
 // *************************************************
-describe('Dynamic Client Registration', () => {
+describe.skip('Dynamic Client Registration', () => {
     beforeEach((done) => {
         Glue.compose(Manifest, options, (err, srv) => {
             if (err) {
