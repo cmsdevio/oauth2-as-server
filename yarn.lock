@@ -1336,14 +1336,6 @@ bootstrap@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
 
-bossy@4.x.x:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/bossy/-/bossy-4.0.1.tgz#2a57c904988ca869954f2060b96fa0ecb12262ba"
-  dependencies:
-    boom "7.x.x"
-    hoek "5.x.x"
-    joi "13.x.x"
-
 bounce@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/bounce/-/bounce-1.2.0.tgz#e3bac68c73fd256e38096551efc09f504873c8c8"
@@ -2342,7 +2334,7 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
-diff@3.5.0, diff@3.5.x, diff@^3.1.0, diff@^3.3.1, diff@^3.5.0:
+diff@3.5.0, diff@^3.1.0, diff@^3.3.1, diff@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
 
@@ -2608,10 +2600,6 @@ eslint-config-airbnb@^16.1.0:
   dependencies:
     eslint-config-airbnb-base "^12.1.0"
 
-eslint-config-hapi@11.x.x:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-hapi/-/eslint-config-hapi-11.1.0.tgz#9e22136ff678deb8121d58c31f9a083a4a4a6f12"
-
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
@@ -2625,16 +2613,6 @@ eslint-module-utils@^2.2.0:
   dependencies:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
-
-eslint-plugin-hapi@4.x.x:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-hapi/-/eslint-plugin-hapi-4.1.0.tgz#ca6b97b7621ae45cf70ab92f8c847a85414a56c9"
-  dependencies:
-    hapi-capitalize-modules "1.x.x"
-    hapi-for-you "1.x.x"
-    hapi-no-var "1.x.x"
-    hapi-scope-start "2.x.x"
-    no-arrowception "1.x.x"
 
 eslint-plugin-import@^2.11.0:
   version "2.11.0"
@@ -2687,7 +2665,7 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@4.19.x, eslint@^4.19.1:
+eslint@^4.19.1:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -2730,7 +2708,7 @@ eslint@4.19.x, eslint@^4.19.1:
     table "4.0.2"
     text-table "~0.2.0"
 
-espree@3.5.x, espree@^3.5.4:
+espree@^3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.4.tgz#b0f447187c8a8bed944b815a660bddf5deb5d1a7"
   dependencies:
@@ -3038,10 +3016,6 @@ find-cache-dir@^1.0.0:
     commondir "^1.0.1"
     make-dir "^1.0.0"
     pkg-dir "^2.0.0"
-
-find-rc@3.0.x:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/find-rc/-/find-rc-3.0.1.tgz#54a4178370f10bc9371fa8d1b2c2809a2afa0cce"
 
 find-up@^1.0.0:
   version "1.1.2"
@@ -3432,22 +3406,6 @@ hapi-auth-cookie@^8.1.0:
     bounce "1.x.x"
     hoek "5.x.x"
     joi "13.x.x"
-
-hapi-capitalize-modules@1.x.x:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/hapi-capitalize-modules/-/hapi-capitalize-modules-1.1.6.tgz#7991171415e15e6aa3231e64dda73c8146665318"
-
-hapi-for-you@1.x.x:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hapi-for-you/-/hapi-for-you-1.0.0.tgz#d362fbee8d7bda9c2c7801e207e5a5cd1a0b6a7b"
-
-hapi-no-var@1.x.x:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/hapi-no-var/-/hapi-no-var-1.0.1.tgz#e9d87fd4de6149104a3fca797ef5c2ef5c182342"
-
-hapi-scope-start@2.x.x:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/hapi-scope-start/-/hapi-scope-start-2.1.1.tgz#7495a726fe72b7bca8de2cdcc1d87cd8ce6ab4f2"
 
 hapi@17.x.x, hapi@^17.4.0:
   version "17.4.0"
@@ -4313,13 +4271,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
 
-json-stable-stringify@1.x.x:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz#9a759d39c5f2ff503fd5300646ed445f88c4f9af"
-  dependencies:
-    jsonify "~0.0.0"
-
-json-stringify-safe@5.0.x, json-stringify-safe@5.x.x:
+json-stringify-safe@5.0.x:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
@@ -4330,10 +4282,6 @@ json3@^3.3.2:
 json5@^0.5.0, json5@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
-
-jsonify@~0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
 
 jsrsasign@^8.0.12:
   version "8.0.12"
@@ -4386,28 +4334,6 @@ kind-of@^5.0.0:
 kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
-
-lab@^15.4.4:
-  version "15.4.4"
-  resolved "https://registry.yarnpkg.com/lab/-/lab-15.4.4.tgz#9a6a5a946f7e2fe83f8b49198a7c3f1d6ba422ea"
-  dependencies:
-    bossy "4.x.x"
-    diff "3.5.x"
-    eslint "4.19.x"
-    eslint-config-hapi "11.x.x"
-    eslint-plugin-hapi "4.x.x"
-    espree "3.5.x"
-    find-rc "3.0.x"
-    handlebars "4.x.x"
-    hoek "5.x.x"
-    json-stable-stringify "1.x.x"
-    json-stringify-safe "5.x.x"
-    mkdirp "0.5.x"
-    seedrandom "2.4.x"
-    source-map "0.6.x"
-    source-map-support "0.5.x"
-    supports-color "4.4.x"
-    will-call "1.x.x"
 
 lazy-cache@^1.0.3:
   version "1.0.4"
@@ -5095,10 +5021,6 @@ nise@^1.2.0:
     lolex "^2.3.2"
     path-to-regexp "^1.7.0"
     text-encoding "^0.6.4"
-
-no-arrowception@1.x.x:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/no-arrowception/-/no-arrowception-1.0.0.tgz#5bf3e95eb9c41b57384a805333daa3b734ee327a"
 
 no-case@^2.2.0:
   version "2.3.2"
@@ -6716,10 +6638,6 @@ scoped-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scoped-regex/-/scoped-regex-1.0.0.tgz#a346bb1acd4207ae70bd7c0c7ca9e566b6baddb8"
 
-seedrandom@2.4.x:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-2.4.3.tgz#2438504dad33917314bff18ac4d794f16d6aaecc"
-
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -6960,13 +6878,6 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@0.5.x:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.5.tgz#0d4af9e00493e855402e8ec36ebed2d266fceb90"
-  dependencies:
-    buffer-from "^1.0.0"
-    source-map "^0.6.0"
-
 source-map-support@^0.4.15:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
@@ -6981,15 +6892,15 @@ source-map@0.5.x, source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, sourc
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
-source-map@0.6.x, source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
-
 source-map@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.4.4.tgz#eba4f5da9c0dc999de68032d8b4f76173652036b"
   dependencies:
     amdefine ">=0.0.4"
+
+source-map@^0.6.1, source-map@~0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
 spdx-correct@^3.0.0:
   version "3.0.0"
@@ -7209,7 +7120,7 @@ subtext@6.x.x:
     pez "4.x.x"
     wreck "14.x.x"
 
-supports-color@4.4.0, supports-color@4.4.x:
+supports-color@4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.4.0.tgz#883f7ddabc165142b2a61427f3352ded195d1a3e"
   dependencies:
@@ -7896,10 +7807,6 @@ wide-align@^1.1.0:
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.2.tgz#571e0f1b0604636ebc0dfc21b0339bbe31341710"
   dependencies:
     string-width "^1.0.2"
-
-will-call@1.x.x:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/will-call/-/will-call-1.0.1.tgz#9b37561ea7156aaba21b28fdf635b80fe78bf166"
 
 window-size@0.1.0:
   version "0.1.0"
