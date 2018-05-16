@@ -34,7 +34,7 @@ const init = async () => {
 // *************************************************
 // TESTING SUITE
 // *************************************************
-describe('JWT Token', () => {
+describe.skip('JWT Token', () => {
     before(async () => {
         await init();
     });

@@ -44,7 +44,7 @@ describe('Client Validation', () => {
             method: 'GET',
             url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
-            validate: false
+            validate: true
         });
         // console.log(res.result);
         expect(res.statusCode).to.equal(200);
@@ -59,7 +59,7 @@ describe('Client Validation', () => {
             .to.have.string('v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU');
     });
 
-    it('should reject invalid scope', async () => {
+    it('should reject an invalid scope, and redirect with the error', async () => {
         const state = Randomstring.generate();
         const redirectUri = 'http://localhost:1234/dummy';
         const scope = 'foo bar';
@@ -68,7 +68,7 @@ describe('Client Validation', () => {
             method: 'GET',
             url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scope=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
-            validate: false
+            validate: true
         });
 
         expect(res.statusCode).to.equal(302);
@@ -84,12 +84,93 @@ describe('Client Validation', () => {
             method: 'GET',
             url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ incorrectRedirectUri }&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
-            validate: false
+            validate: true
         });
 
         expect(res.statusCode).to.equal(302);
         expect(res.headers.location).to.equal(`${ correctRedirectUri }?error=${ encodeURIComponent(errorMessage) }`);
         console.log(res.headers.location);
+    });
+
+    it('should reject an unknown client, and redirect with the error', async () => {
+        const clientId = Randomstring.generate(100);
+        const state = Randomstring.generate();
+        const redirectUri = 'http://localhost:1234/dummy';
+        const errorMessage = `No client found for ID ${ clientId }.`;
+        const res = await server.inject({
+            method: 'GET',
+            url: `/oauth2/authorize?client_id=${ clientId }&redirect_uri=${ redirectUri }&response_type=code&state=${ state }`,
+            credentials: { user: 'test' },
+            validate: true
+        });
+
+        expect(res.statusCode).to.equal(302);
+        expect(res.headers.location).to.equal(`${ redirectUri }?error=${ encodeURIComponent(errorMessage) }`);
+    });
+
+    it('should reject POST request to approve a client with an invalid reqId', async () => {
+        const state = Randomstring.generate();
+        const incorrectReqId = Randomstring.generate();
+        const res = await server.inject({
+            method: 'GET',
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            credentials: { user: 'test' },
+            validate: true
+        });
+        expect(res.statusCode).to.equal(200);
+        expect(res.request.query).to.deep.equal({
+            client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
+            redirect_uri: 'http://localhost:1234/dummy',
+            response_type: 'code',
+            state
+        });
+        // Extract the generated reqId
+        const dom = new JSDOM(res.result);
+        const reqId = dom.window.document.querySelector('input').getAttribute('value');
+        expect(reqId).to.not.equal(incorrectReqId);
+
+        const approvalRes = await server.inject({
+            method: 'POST',
+            url: '/oauth2/approve',
+            payload: `reqId=${ incorrectReqId }&decision=approve`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            credentials: { user: 'test' }
+        });
+        expect(approvalRes.statusCode).to.equal(500);
+    });
+
+    it('should generate a code for a valid client', async () => {
+        const state = Randomstring.generate();
+        const res = await server.inject({
+            method: 'GET',
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            credentials: { user: 'test' },
+            validate: true
+        });
+        expect(res.statusCode).to.equal(200);
+        expect(res.request.query).to.deep.equal({
+            client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
+            redirect_uri: 'http://localhost:1234/dummy',
+            response_type: 'code',
+            state
+        });
+        // Extract the generated reqId
+        const dom = new JSDOM(res.result);
+        const reqId = dom.window.document.querySelector('input').getAttribute('value');
+
+        const approvalRes = await server.inject({
+            method: 'POST',
+            url: '/oauth2/approve',
+            payload: `reqId=${ reqId }&decision=approve`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            credentials: { user: 'test' }
+        });
+        console.log(approvalRes.payload);
+        // expect(approvalRes.statusCode).to.equal(200);
     });
 
     after(async () => {
