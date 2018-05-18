@@ -2,11 +2,14 @@
  * Crafted in Erebor by thorin on 2018-05-14
  */
 const { expect } = require('chai');
+const chai = require('chai');
+const assertArrays = require('chai-arrays');
 const Glue = require('glue');
 const Randomstring = require('randomstring');
 const jsdom = require('jsdom');
 
 const { JSDOM } = jsdom;
+chai.use(assertArrays);
 
 const Manifest = require('./resources/serverConfig');
 const Options = require('./resources/oauthOptions');
@@ -198,6 +201,42 @@ describe('Client Validation', () => {
         const inputNodes = dom.window.document.querySelectorAll('input');
         expect(inputNodes[1].getAttribute('name')).to.equal(scope.split(' ')[0]);
         expect(inputNodes[2].getAttribute('name')).to.equal(scope.split(' ')[1]);
+    });
+
+    it('should only submit scopes approved by the resource owner', async () => {
+        const state = Randomstring.generate();
+        const redirectUri = 'http://localhost:1234/dummy';
+        const scope = 'foo bar';
+        const res = await server.inject({
+            method: 'GET',
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            credentials: { user: 'test' },
+            validate: true
+        });
+
+        const dom = new JSDOM(res.result);
+        // Extract the generated reqId
+        const reqId = dom.window.document.querySelector('input').getAttribute('value');
+
+        const inputNodes = dom.window.document.querySelectorAll('input');
+        expect(inputNodes[1].getAttribute('name')).to.equal(scope.split(' ')[0]);
+        expect(inputNodes[2].getAttribute('name')).to.equal(scope.split(' ')[1]);
+        const approvalRes = await server.inject({
+            method: 'POST',
+            url: '/oauth2/approve',
+            payload: `reqId=${ reqId }&decision=approve&foo=on`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            credentials: { user: 'test' }
+        });
+
+        const respUrl = approvalRes.headers.location;
+        const generatedCode = respUrl.split(/=(.+)/)[1].split('&')[0];
+        const Models = server.app.db;
+        const codeObject = await Models.findCodeByValue(generatedCode);
+        expect(codeObject.scopes).to.be.ofSize(1);
+        expect(codeObject.scopes).to.be.containing('foo');
     });
 
     after(async () => {
