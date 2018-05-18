@@ -7,7 +7,8 @@
     "build": "webpack --config ./lib/modules/authServer/webpack.config.js --progress --colors",
     "start:mon": "nodemon -w . index.js",
     "start": "node index.js",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "test:coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec"
   },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
   "author": "philcms1 <phil@cmsdev.io>",
@@ -82,6 +83,7 @@
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "istanbul": "^0.4.5",
     "jquery": "^3.3.1",
     "jsdom": "^11.10.0",
     "mocha": "^5.1.1",
