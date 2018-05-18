@@ -62,15 +62,14 @@ describe('Client Validation', () => {
     it('should reject an invalid scope, and redirect with the error', async () => {
         const state = Randomstring.generate();
         const redirectUri = 'http://localhost:1234/dummy';
-        const scope = 'foo bar';
-        const errorMessage = 'Invalid scope(s) requested: foo,bar';
+        const scope = 'foo bur';
+        const errorMessage = 'Invalid scope(s) requested: foo,bur';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scope=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
-
         expect(res.statusCode).to.equal(302);
         expect(res.headers.location).to.equal(`${ redirectUri }?error=${ encodeURIComponent(errorMessage) }`);
     });
@@ -169,8 +168,36 @@ describe('Client Validation', () => {
             },
             credentials: { user: 'test' }
         });
-        console.log(approvalRes.payload);
-        // expect(approvalRes.statusCode).to.equal(200);
+        // TODO: properly parse URL query parameters
+        const respUrl = approvalRes.headers.location;
+        const generatedCode = respUrl.split(/=(.+)/)[1].split('&')[0];
+        const Models = server.app.db;
+        const codeObject = await Models.findCodeByValue(generatedCode);
+        expect(codeObject.client_id).to.equal('v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU');
+        expect(codeObject.code).to.equal(generatedCode);
+        expect(codeObject.state).to.equal(state);
+        expect(codeObject.response_type).to.equal('code');
+        expect(codeObject.redirect_uri).to.equal('http://localhost:1234/dummy');
+        const today = new Date();
+        today.setDate(today.getDate() + 2);
+        expect(codeObject.ttl < today).to.be.true;
+    });
+
+    it('should display the validated scopes in the client approval form', async () => {
+        const state = Randomstring.generate();
+        const redirectUri = 'http://localhost:1234/dummy';
+        const scope = 'foo bar';
+        const res = await server.inject({
+            method: 'GET',
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            credentials: { user: 'test' },
+            validate: true
+        });
+
+        const dom = new JSDOM(res.result);
+        const inputNodes = dom.window.document.querySelectorAll('input');
+        expect(inputNodes[1].getAttribute('name')).to.equal(scope.split(' ')[0]);
+        expect(inputNodes[2].getAttribute('name')).to.equal(scope.split(' ')[1]);
     });
 
     after(async () => {

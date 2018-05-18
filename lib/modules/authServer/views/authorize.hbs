@@ -12,9 +12,9 @@
                 </p>
 
                 <input type="hidden" name="reqId" value={{reqId}}>
-                {{#if client.scope}}
+                {{#if client.scopes}}
                     <p><b>Scopes:</b></p>
-                    {{#each client.scope}}
+                    {{#each client.scopes}}
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="{{this}}" checked>
