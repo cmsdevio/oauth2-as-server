@@ -8,7 +8,7 @@
     "start:mon": "nodemon -w . index.js",
     "start": "node index.js",
     "test": "mocha --exit",
-    "test:coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && codecov"
+    "test:coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && codecov -t f8623b3a-4831-4248-b198-b5590b6144f3"
   },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
   "author": "philcms1 <phil@cmsdev.io>",
