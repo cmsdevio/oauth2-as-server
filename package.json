@@ -7,7 +7,8 @@
     "build": "webpack --config ./lib/modules/authServer/webpack.config.js --progress --colors",
     "start:mon": "nodemon -w . index.js",
     "start": "node index.js",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "test:coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && codecov -t f8623b3a-4831-4248-b198-b5590b6144f3"
   },
   "repository": "git@github.com:philcms1/oauth2-as-server.git",
   "author": "philcms1 <phil@cmsdev.io>",
@@ -72,6 +73,8 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.1.1",
     "chai": "^4.1.2",
+    "chai-arrays": "^2.0.0",
+    "codecov": "^3.0.2",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -81,7 +84,9 @@
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "istanbul": "^0.4.5",
     "jquery": "^3.3.1",
+    "jsdom": "^11.10.0",
     "mocha": "^5.1.1",
     "redux-devtools-extension": "^2.13.2",
     "sinon": "^5.0.7",
