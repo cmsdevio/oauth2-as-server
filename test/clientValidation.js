@@ -46,7 +46,7 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -54,7 +54,7 @@ describe('Client Validation', () => {
         expect(res.statusCode).to.equal(200);
         expect(res.request.query).to.deep.equal({
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: 'code',
             state
         });
@@ -67,7 +67,7 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const urlParsed = UrlUtils.buildUrl('/oauth2/authorize', {
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: [ 'http://localhost:1234/dummy' ],
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: 'code',
             scopes: 'foo',
             state
@@ -85,7 +85,7 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const urlParsed = UrlUtils.buildUrl('/oauth2/authorize', {
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: [ 'http://localhost:1234/dummy' ],
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: ' ',
             scopes: 'foo',
             state
@@ -106,7 +106,7 @@ describe('Client Validation', () => {
         const errorMessage = 'Invalid scope(s) requested: foo,bur';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -121,7 +121,7 @@ describe('Client Validation', () => {
         const errorMessage = `Invalid redirect URI ${ incorrectRedirectUri }`;
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=${ incorrectRedirectUri }&response_type=code&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ incorrectRedirectUri }&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -138,7 +138,7 @@ describe('Client Validation', () => {
         const errorMessage = `No client found for ID ${ clientId }.`;
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=${ clientId }&redirect_uris=${ redirectUri }&response_type=code&state=${ state }`,
+            url: `/oauth2/authorize?client_id=${ clientId }&redirect_uri=${ redirectUri }&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -152,14 +152,14 @@ describe('Client Validation', () => {
         const incorrectReqId = Randomstring.generate();
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
         expect(res.statusCode).to.equal(200);
         expect(res.request.query).to.deep.equal({
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: 'code',
             state
         });
@@ -184,14 +184,14 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
         expect(res.statusCode).to.equal(200);
         expect(res.request.query).to.deep.equal({
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: 'code',
             state
         });
@@ -217,7 +217,7 @@ describe('Client Validation', () => {
         expect(codeObject.code).to.equal(generatedCode);
         expect(codeObject.state).to.equal(state);
         expect(codeObject.response_type).to.equal('code');
-        expect(codeObject.redirect_uris).to.equal('http://localhost:1234/dummy');
+        expect(codeObject.redirect_uri).to.equal('http://localhost:1234/dummy');
         const today = new Date();
         today.setDate(today.getDate() + 2);
         expect(codeObject.ttl < today).to.be.true;
@@ -227,14 +227,14 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=http://localhost:1234/dummy&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
         expect(res.statusCode).to.equal(200);
         expect(res.request.query).to.deep.equal({
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             state
         });
         // Extract the generated reqId
@@ -259,7 +259,7 @@ describe('Client Validation', () => {
         expect(codeObject.code).to.equal(generatedCode);
         expect(codeObject.state).to.equal(state);
         expect(codeObject.response_type).to.equal('code');
-        expect(codeObject.redirect_uris).to.equal('http://localhost:1234/dummy');
+        expect(codeObject.redirect_uri).to.equal('http://localhost:1234/dummy');
         const today = new Date();
         today.setDate(today.getDate() + 2);
         expect(codeObject.ttl < today).to.be.true;
@@ -269,7 +269,7 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const urlParsed = UrlUtils.buildUrl('/oauth2/authorize', {
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: ' ',
             state
         });
@@ -282,7 +282,7 @@ describe('Client Validation', () => {
         expect(res.statusCode).to.equal(200);
         expect(res.request.query).to.deep.equal({
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: ' ',
             state
         });
@@ -308,7 +308,7 @@ describe('Client Validation', () => {
         expect(codeObject.code).to.equal(generatedCode);
         expect(codeObject.state).to.equal(state);
         expect(codeObject.response_type).to.equal('code');
-        expect(codeObject.redirect_uris).to.equal('http://localhost:1234/dummy');
+        expect(codeObject.redirect_uri).to.equal('http://localhost:1234/dummy');
         const today = new Date();
         today.setDate(today.getDate() + 2);
         expect(codeObject.ttl < today).to.be.true;
@@ -318,14 +318,14 @@ describe('Client Validation', () => {
         const state = Randomstring.generate();
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
         expect(res.statusCode).to.equal(200);
         expect(res.request.query).to.deep.equal({
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
-            redirect_uris: 'http://localhost:1234/dummy',
+            redirect_uri: 'http://localhost:1234/dummy',
             response_type: 'code',
             state
         });
@@ -351,7 +351,7 @@ describe('Client Validation', () => {
         expect(codeObject.code).to.equal(generatedCode);
         expect(codeObject.state).to.equal(state);
         expect(codeObject.response_type).to.equal('code');
-        expect(codeObject.redirect_uris).to.equal('http://localhost:1234/dummy');
+        expect(codeObject.redirect_uri).to.equal('http://localhost:1234/dummy');
         const today = new Date();
         const { codeTTL } = Options.authGrantType;
         expect(codeObject.ttl < today).to.be.false;
@@ -365,7 +365,7 @@ describe('Client Validation', () => {
         const scope = 'foo bar';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -382,7 +382,7 @@ describe('Client Validation', () => {
         const scope = 'foo bar';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uris=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
