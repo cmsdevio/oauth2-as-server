@@ -69,9 +69,10 @@ describe('Client Validation', () => {
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
             redirect_uri: 'http://localhost:1234/dummy',
             response_type: 'code',
-            scopes: 'foo',
+            scope: 'foo',
             state
         });
+        console.log(urlParsed);
         const res = await server.inject({
             method: 'GET',
             url: urlParsed,
@@ -87,7 +88,7 @@ describe('Client Validation', () => {
             client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
             redirect_uri: 'http://localhost:1234/dummy',
             response_type: ' ',
-            scopes: 'foo',
+            scope: 'foo',
             state
         });
         const res = await server.inject({
@@ -106,7 +107,7 @@ describe('Client Validation', () => {
         const errorMessage = 'Invalid scope(s) requested: foo,bur';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scope=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -365,7 +366,7 @@ describe('Client Validation', () => {
         const scope = 'foo bar';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scope=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -382,7 +383,7 @@ describe('Client Validation', () => {
         const scope = 'foo bar';
         const res = await server.inject({
             method: 'GET',
-            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scopes=${ scope }&state=${ state }`,
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=${ redirectUri }&response_type=code&scope=${ scope }&state=${ state }`,
             credentials: { user: 'test' },
             validate: true
         });
@@ -408,8 +409,19 @@ describe('Client Validation', () => {
         const generatedCode = respUrl.split(/=(.+)/)[1].split('&')[0];
         const Models = server.app.db;
         const codeObject = await Models.findCodeByValue(generatedCode);
-        expect(codeObject.scopes).to.be.ofSize(1);
-        expect(codeObject.scopes).to.be.containing('foo');
+        expect(codeObject.scope).to.be.ofSize(1);
+        expect(codeObject.scope).to.be.containing('foo');
+    });
+
+    it.skip('should work', async () => {
+        const res = await server.inject({
+            method: 'GET',
+            url: '/oauth2/authorize?state= 2133688A&response_type= code&scope= foo&redirect_uri= http%3A%2F%2Flocalhost%3A1234%2Fdummy&client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
+            credentials: { user: 'test' },
+            validate: true
+        });
+        // console.log(res);
+        expect(res.statusCode).to.equal(200);
     });
 
     after(async () => {
