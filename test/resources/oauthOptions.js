@@ -3,7 +3,8 @@
  */
 module.exports = {
     authGrantType: {
-        codeTTL: 1 // days
+        codeTTL: 1, // days
+        defaultResponseType: 'code'
     },
     jwt: {
         exp: 315576000, // 10 years in seconds
