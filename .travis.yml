@@ -9,9 +9,3 @@ node_js:
 after_success:
   - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
   - codecov -t f8623b3a-4831-4248-b198-b5590b6144f3
-#install:
-#  - npm install -g istanbul
-#  - npm install -g codecov
-#script:
-#  - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
-#  - codecov
