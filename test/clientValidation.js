@@ -186,6 +186,51 @@ describe('Client Validation', () => {
         expect(codeObject.ttl < today).to.be.true;
     });
 
+    it('should respect the TTL for the code defined in the configuration', async () => {
+        const state = Randomstring.generate();
+        const res = await server.inject({
+            method: 'GET',
+            url: `/oauth2/authorize?client_id=v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU&redirect_uri=http://localhost:1234/dummy&response_type=code&state=${ state }`,
+            credentials: { user: 'test' },
+            validate: true
+        });
+        expect(res.statusCode).to.equal(200);
+        expect(res.request.query).to.deep.equal({
+            client_id: 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU',
+            redirect_uri: 'http://localhost:1234/dummy',
+            response_type: 'code',
+            state
+        });
+        // Extract the generated reqId
+        const dom = new JSDOM(res.result);
+        const reqId = dom.window.document.querySelector('input').getAttribute('value');
+
+        const approvalRes = await server.inject({
+            method: 'POST',
+            url: '/oauth2/approve',
+            payload: `reqId=${ reqId }&decision=approve`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            credentials: { user: 'test' }
+        });
+        // TODO: properly parse URL query parameters
+        const respUrl = approvalRes.headers.location;
+        const generatedCode = respUrl.split(/=(.+)/)[1].split('&')[0];
+        const Models = server.app.db;
+        const codeObject = await Models.findCodeByValue(generatedCode);
+        expect(codeObject.client_id).to.equal('v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU');
+        expect(codeObject.code).to.equal(generatedCode);
+        expect(codeObject.state).to.equal(state);
+        expect(codeObject.response_type).to.equal('code');
+        expect(codeObject.redirect_uri).to.equal('http://localhost:1234/dummy');
+        const today = new Date();
+        const { codeTTL } = Options.authGrantType;
+        expect(codeObject.ttl < today).to.be.false;
+        today.setDate(today.getDate() + codeTTL + 1);
+        expect(codeObject.ttl < today).to.be.true;
+    });
+
     it('should display the validated scopes in the client approval form', async () => {
         const state = Randomstring.generate();
         const redirectUri = 'http://localhost:1234/dummy';

@@ -2,99 +2,41 @@
 const { expect } = require('chai');
 const Glue = require('glue');
 
-// *************************************************
-// GLU CONFIG
-// *************************************************
-const Manifest = {
-    server: {},
-    connections: [
-        {
-            port: process.env.PORT || 9005,
-            labels: [ 'oauth2' ],
-            routes: { cors: true }
-        }
-    ],
-    registrations: [
-        {
-            plugin: {
-                register: 'good',
-                options: {
-                    reporters: {
-                        console: [
-                            {
-                                module: 'good-squeeze',
-                                name: 'Squeeze',
-                                args: [ {
-                                    log: '*',
-                                    request: '*',
-                                    response: [ 'oauth2-*' ]
-                                } ]
-                            },
-                            {
-                                module: 'good-console'
-                            },
-                            'stdout'
-                        ]
-                    }
-                }
-            }
-        },
-        {
-            plugin: 'vision'
-        },
-        {
-            plugin: 'inert'
-        },
-        {
-            plugin: 'lout'
-        },
-        {
-            plugin: 'tv'
-        },
-        {
-            plugin: './lib/modules/mocks/database/index'
-        },
-        {
-            plugin: 'hapi-auth-cookie'
-        },
-        {
-            plugin: 'hapi-auth-bearer-token'
-        },
-        {
-            plugin: {
-                register: './lib/modules/caching/index',
-                options: {}
-            }
-        },
-        {
-            plugin: './lib/modules/authServer/index',
-            options: {
-                select: [ 'oauth2' ],
-                routes: {
-                    prefix: '/oauth2'
-                }
-            }
-        }
-    ]
-};
-const options = { relativeTo: `${ __dirname }/..` };
+const Manifest = require('./resources/serverConfig');
+const Options = require('./resources/oauthOptions');
 
 // *************************************************
 // Utility functions and variables
 // *************************************************
 let server;
-const KEY_BEARER_TOKEN = '$2a$10$2hdf7zFYV.4RUgKxsmRtKuAA/H9dqK0ujIGOdbpm.ENah4iJaEDlm';
+
+const init = async () => {
+    try {
+        server = await Glue.compose(Manifest(9007), { relativeTo: `${ __dirname }/..` });
+
+        server.app.oauthOptions = Options;
+
+        await server.start();
+
+        console.log(`Test server running at: ${ server.info.uri }`);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+// const KEY_BEARER_TOKEN = 'OCW6s6K5yAtdLI2b/7GZpzWQNmxwmb5IF1bb1xv9WHQoBH/+Y9WBMyb9OSJfGvS+2Iza8g0U2oZhupVIjvJw4HVHIYZIGdcJJhvnrI0i3kRIB1HWAz0eh2myjFs7B5ZHM2vYBHxYdXUnEceg11RhClAc3+jLuCTkaDYbHwhZehHBIiTiLb1fSoF7x70tUAGrikChsfSKx7Kr+OKca7osk79e57jG67qG2hK0jevV/SCM/nOmw0HFke62GHM8HkY3nIQTWQ1p4o3VUta80C9ADU3Cs1DagUCyO/rYVD/WVgzv26YC8Ed8OIj3Rjby+OgJTGSL1SZKvuIVuIGObCAFHA==';
 const dcrReqData = {
     client_name: 'restlet_client_5328',
-    redirect_uris: [ 'http://localhost:1234/dummy' ],
-    grant_types: [ 'client_credentials' ],
+    redirect_uri: 'http://localhost:1234/dummy',
+    grant_type: 'client_credentials',
     response_type: 'token',
     token_endpoint_auth_method: 'client_secret_basic'
 };
+
 const expectedPayload = {
     client_name: 'restlet_client_5327',
-    redirect_uris: [ 'http://localhost:1234/dummy' ],
-    grant_types: [ 'client_credentials' ],
+    redirect_uri: 'http://localhost:1234/dummy',
+    grant_type: 'client_credentials',
     response_type: 'token',
     token_endpoint_auth_method: 'client_secret_basic',
     client_id: '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyK',
@@ -106,55 +48,34 @@ const expectedPayload = {
 // *************************************************
 // TESTING SUITE
 // *************************************************
-describe.skip('Dynamic Client Registration', () => {
-    beforeEach((done) => {
-        Glue.compose(Manifest, options, (err, srv) => {
-            if (err) {
-                throw err;
-            }
-            server = srv;
-            server.app.oauthOptions = {
-                jwt: {
-                    exp: 315576000 // 10 years in seconds
-                },
-                dcr: {
-                    clientIdLength: 35,
-                    clientSecretLength: 50,
-                    defaultGrantType: 'authorization_code',
-                    defaultResponseType: 'code',
-                    defaultTokenEndpointAuthMethod: 'client_secret_basic',
-                    clientSecretExpiration: 0
-                }
-            };
-            done();
-        });
+describe('Dynamic Client Registration', () => {
+    before(async () => {
+        await init();
     });
 
-    it('should dynamically register a client', (done) => {
+    it('should dynamically register a client', async () => {
         const request = {
             method: 'POST',
             url: '/oauth2/register',
-            payload: dcrReqData,
-            headers: {
-                Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
-            }
+            payload: dcrReqData
+            // headers: {
+            //     Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
+            // }
         };
 
-        server.inject(request, (res) => {
-            expect(res.statusCode).to.equal(201);
-            expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
-            done();
-        });
+        const res = await server.inject(request);
+        expect(res.statusCode).to.equal(201);
+        expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
     });
 
     it('should reject invalid grant/response type combinations', () => {
         const request = {
             method: 'POST',
             url: '/oauth2/register',
-            payload: { ...dcrReqData, response_type: 'code' },
-            headers: {
-                Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
-            }
+            payload: { ...dcrReqData, response_type: 'code' }
+            // headers: {
+            //     Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
+            // }
         };
 
         server.inject(request, (res) => {
@@ -170,15 +91,20 @@ describe.skip('Dynamic Client Registration', () => {
         const request = {
             method: 'POST',
             url: '/oauth2/register',
-            payload: dcrReqDataNoTokenEndpointAuth,
-            headers: {
-                Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
-            }
+            payload: dcrReqDataNoTokenEndpointAuth
+            // headers: {
+            //     Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
+            // }
         };
 
         server.inject(request, (res) => {
             expect(res.statusCode).to.equal(201);
             expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
         });
+    });
+
+    after(async () => {
+        await server.stop();
+        console.log('Server stopped.');
     });
 });
