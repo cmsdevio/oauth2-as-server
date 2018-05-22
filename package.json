@@ -7,7 +7,7 @@
     "build": "webpack --config ./lib/modules/authServer/webpack.config.js --progress --colors",
     "start:mon": "nodemon -w . index.js",
     "start": "node index.js",
-    "test:dev": "mocha --exit",
+    "test:dev": "nyc mocha --watch",
     "test:coverage": "nyc mocha --exit",
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && codecov"
   },

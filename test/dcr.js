@@ -27,7 +27,7 @@ const init = async () => {
 // const KEY_BEARER_TOKEN = 'OCW6s6K5yAtdLI2b/7GZpzWQNmxwmb5IF1bb1xv9WHQoBH/+Y9WBMyb9OSJfGvS+2Iza8g0U2oZhupVIjvJw4HVHIYZIGdcJJhvnrI0i3kRIB1HWAz0eh2myjFs7B5ZHM2vYBHxYdXUnEceg11RhClAc3+jLuCTkaDYbHwhZehHBIiTiLb1fSoF7x70tUAGrikChsfSKx7Kr+OKca7osk79e57jG67qG2hK0jevV/SCM/nOmw0HFke62GHM8HkY3nIQTWQ1p4o3VUta80C9ADU3Cs1DagUCyO/rYVD/WVgzv26YC8Ed8OIj3Rjby+OgJTGSL1SZKvuIVuIGObCAFHA==';
 const dcrReqData = {
     client_name: 'restlet_client_5328',
-    redirect_uri: 'http://localhost:1234/dummy',
+    redirect_uris: 'http://localhost:1234/dummy',
     grant_type: 'client_credentials',
     response_type: 'token',
     token_endpoint_auth_method: 'client_secret_basic'
