@@ -4,5 +4,5 @@ sudo: false
 node_js:
   - "8"
   - "9"
-  - "node"
-  - "lts/*"
+#  - "node"
+#  - "lts/*"
