@@ -4,8 +4,5 @@ sudo: false
 node_js:
   - "8"
   - "9"
-#  - "node"
-#  - "lts/*"
-after_success:
-#  - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
-#  - codecov -t f8623b3a-4831-4248-b198-b5590b6144f3
+  - "node"
+  - "lts/*"
