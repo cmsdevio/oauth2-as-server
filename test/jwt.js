@@ -49,7 +49,9 @@ describe('JWT Token', () => {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
-            }
+            },
+            credentials: { user: 'test' },
+            validate: true
         };
 
         const res = await server.inject(request);

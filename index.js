@@ -80,10 +80,10 @@ const init = async () => {
                 defaultTokenAuth: 'Bearer'
             },
             dcr: {
-                clientIdLength: 35,
-                clientSecretLength: 50,
-                defaultGrantType: 'authorization_code',
-                defaultResponseType: 'code',
+                clientIdLength: 50,
+                clientSecretLength: 100,
+                defaultGrantTypes: [ 'authorization_code', 'refresh_token' ],
+                defaultResponseTypes: [ 'code' ],
                 defaultTokenEndpointAuthMethod: 'client_secret_basic',
                 clientSecretExpiration: 0
             }
