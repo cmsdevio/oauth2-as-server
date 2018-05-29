@@ -34,7 +34,7 @@ const init = async () => {
 // *************************************************
 // TESTING SUITE
 // *************************************************
-describe('JWT Token', () => {
+describe('Token', () => {
     before(async () => {
         await init();
     });
