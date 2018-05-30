@@ -35,7 +35,7 @@ const init = async () => {
     }
 };
 const baseUrl = '/oauth2/authorize';
-const client_id = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU';
+const client_id = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf';
 const redirect_uri = 'http://localhost:1234/dummy';
 const response_type = 'code';
 const scope = 'foo';
@@ -79,7 +79,7 @@ describe('Client Validation', () => {
         });
         const dom = new JSDOM(res.result);
         expect(dom.window.document.querySelector('form').querySelector('p').innerHTML)
-            .to.have.string('v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDfWVkUYkOgErV8AEf5qDU');
+            .to.have.string('v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf');
     });
 
     it('should accept an empty response type', async () => {
@@ -150,7 +150,7 @@ describe('Client Validation', () => {
     });
 
     it('should reject an unknown client, and redirect with the error', async () => {
-        const clientId = Randomstring.generate(100);
+        const clientId = Randomstring.generate(50);
         const errorMessage = `No client found for ID ${ clientId }.`;
         const url = UrlUtils.buildUrl(
             baseUrl,
