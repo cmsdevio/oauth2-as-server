@@ -1,6 +1,7 @@
 /* eslint-disable no-multi-assign,no-param-reassign */
 const { expect } = require('chai');
 const Glue = require('glue');
+const qs = require('qs');
 
 const Manifest = require('./resources/serverConfig');
 const Options = require('./resources/oauthOptions');
@@ -24,14 +25,8 @@ const init = async () => {
     }
 };
 
+// eslint-disable-next-line max-len
 // const KEY_BEARER_TOKEN = 'OCW6s6K5yAtdLI2b/7GZpzWQNmxwmb5IF1bb1xv9WHQoBH/+Y9WBMyb9OSJfGvS+2Iza8g0U2oZhupVIjvJw4HVHIYZIGdcJJhvnrI0i3kRIB1HWAz0eh2myjFs7B5ZHM2vYBHxYdXUnEceg11RhClAc3+jLuCTkaDYbHwhZehHBIiTiLb1fSoF7x70tUAGrikChsfSKx7Kr+OKca7osk79e57jG67qG2hK0jevV/SCM/nOmw0HFke62GHM8HkY3nIQTWQ1p4o3VUta80C9ADU3Cs1DagUCyO/rYVD/WVgzv26YC8Ed8OIj3Rjby+OgJTGSL1SZKvuIVuIGObCAFHA==';
-const dcrReqData = {
-    client_name: 'restlet_client_5328',
-    redirect_uris: 'http://localhost:1234/dummy',
-    grant_type: 'client_credentials',
-    response_type: 'token',
-    token_endpoint_auth_method: 'client_secret_basic'
-};
 
 const expectedPayload = {
     client_name: 'restlet_client_5327',
@@ -53,11 +48,41 @@ describe('Dynamic Client Registration', () => {
         await init();
     });
 
-    it.skip('should dynamically register a client', async () => {
+    it('should dynamically register a client for grant type client credentials', async () => {
+        const dcrReqData = {
+            client_name: 'restlet_client_5328',
+            redirect_uris: [ 'http://localhost:1234/dummy' ],
+            grant_types: [ 'client_credentials' ],
+            response_types: [ 'token' ],
+            token_endpoint_auth_method: 'client_secret_basic'
+        };
         const request = {
             method: 'POST',
             url: '/oauth2/register',
             payload: dcrReqData
+            // headers: {
+            //     ContentType: 'application/x-www-form-urlencoded'
+            // }
+        };
+
+        const res = await server.inject(request);
+        console.log(res);
+        expect(res.statusCode).to.equal(201);
+        // expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
+    });
+
+    it('should generate a name', async () => {
+        const dcrReqData = {
+            redirect_uris: 'http://localhost:1234/dummy',
+            grant_types: [ 'client_credentials' ],
+            response_types: [ 'token' ],
+            token_endpoint_auth_method: 'client_secret_basic'
+        };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/register',
+            payload: dcrReqData,
+            validate: true
             // headers: {
             //     Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
             // }
@@ -65,7 +90,7 @@ describe('Dynamic Client Registration', () => {
 
         const res = await server.inject(request);
         expect(res.statusCode).to.equal(201);
-        expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
+        expect(JSON.parse(res.payload).client_name).to.include('dcrGenerated_');
     });
 
     it('should dynamically register a client with default values', async () => {
@@ -86,10 +111,17 @@ describe('Dynamic Client Registration', () => {
     });
 
     it('should reject invalid grant/response type combinations', () => {
+        const dcrReqData = {
+            client_name: 'restlet_client_5328',
+            redirect_uris: 'http://localhost:1234/dummy',
+            grant_types: [ 'client_credentials' ],
+            response_types: [ 'code' ],
+            token_endpoint_auth_method: 'client_secret_basic'
+        };
         const request = {
             method: 'POST',
             url: '/oauth2/register',
-            payload: { ...dcrReqData, response_type: 'code' }
+            payload: dcrReqData
             // headers: {
             //     Authorization: `Bearer ${ KEY_BEARER_TOKEN }`
             // }

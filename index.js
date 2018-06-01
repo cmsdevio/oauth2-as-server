@@ -1,11 +1,26 @@
 /* eslint-disable no-param-reassign */
 const Glue = require('glue');
 const Good = require('good');
+const Boom = require('boom');
 
 const Manifest = {
     server: {
         port: process.env.PORT || 9005,
-        routes: { cors: true }
+        routes: {
+            cors: true,
+            validate: {
+                failAction: async (request, h, err) => {
+                    if (process.env.NODE_ENV === 'production') {
+                        request.log([ 'oauth2-failAction' ], `Validation Error: ${ err.message }.`);
+                        throw Boom.badRequest('Invalid request payload input');
+                    } else {
+                        // During development, log and respond with the full error.
+                        request.log([ 'oauth2-failAction' ], `Validation Error: ${ err }.`);
+                        throw err;
+                    }
+                }
+            }
+        }
     },
     register: {
         plugins: [
@@ -68,7 +83,8 @@ const init = async () => {
         server.app.oauthOptions = {
             authGrantType: {
                 codeTTL: 1, // days
-                defaultResponseType: 'code'
+                defaultResponseType: 'code',
+                refreshTokenLength: 50
             },
             jwt: {
                 exp: 315576000, // 10 years in seconds

@@ -92,8 +92,7 @@ describe('Token', () => {
             method: 'POST',
             url: '/oauth2/token',
             payload: {
-                grant_type: 'client_credentials',
-                redirect_uri: 'http://localhost:1234/dummy',
+                ...tokenReqData,
                 client_id: clientId,
                 client_secret: clientSecret
             },
@@ -162,6 +161,49 @@ describe('Token', () => {
         expect(res.statusCode).to.equal(200);
         expect(JSON.parse(res.payload).token_type).to.equal('Bearer');
         expect(JSON.parse(res.payload).client_id).to.equal(clientId);
+    });
+
+    it('should throw an error when receiving a request for a grant type not registered for a client', async () => {
+        const clientId = '9WBlEWnkLSwkcsTXI97bHfhx5joxleogWyKfGKni325Fewq10I';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4t6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: {
+                ...tokenReqData,
+                grant_type: 'refresh_token',
+                client_id: clientId,
+                client_secret: clientSecret
+            },
+            validate: true
+        };
+
+        const res = await server.inject(request);
+
+        expect(res.statusCode).to.equal(403);
+    });
+
+    it.skip('should generate a refresh_token for a client with appropriate grant types', async () => {
+        const clientId = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4t6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const data = {
+            grant_type: 'authorization_code',
+            redirect_uri: 'http://localhost:1234/dummy'
+        };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: qs.stringify(data),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
+            },
+            validate: true
+        };
+
+        const res = await server.inject(request);
+
+        expect(res.statusCode).to.equal(200);
     });
 
     after(async () => {
