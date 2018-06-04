@@ -206,6 +206,101 @@ describe('Token', () => {
         expect(res.statusCode).to.equal(200);
     });
 
+    it('should reject a client with a missing code for auth code grant type', async () => {
+        const clientId = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4t6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const data = {
+            grant_type: 'authorization_code',
+            redirect_uri: 'http://localhost:1234/dummy'
+        };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: qs.stringify(data),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
+            },
+            validate: true
+        };
+
+        const res = await server.inject(request);
+
+        expect(res.statusCode).to.equal(403);
+    });
+
+    it('should reject a client with an incorrect code for auth code grant type', async () => {
+        const clientId = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4t6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const data = {
+            grant_type: 'authorization_code',
+            code: 'gsdg86HDWSsgh6547Gsdfss34',
+            redirect_uri: 'http://localhost:1234/dummy'
+        };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: qs.stringify(data),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
+            },
+            validate: true
+        };
+
+        const res = await server.inject(request);
+
+        expect(res.statusCode).to.equal(403);
+    });
+
+    it('should reject a client with an expired code for auth code grant type', async () => {
+        const clientId = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4t6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const data = {
+            grant_type: 'authorization_code',
+            code: 'HSDdg678ggrRrehg557DFSGEG',
+            redirect_uri: 'http://localhost:1234/dummy'
+        };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: qs.stringify(data),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
+            },
+            validate: true
+        };
+
+        const res = await server.inject(request);
+
+        expect(res.statusCode).to.equal(403);
+    });
+
+    it.skip('should generate a token for a valid code for the auth grant type', async () => {
+        const clientId = 'v30UYVDty9P1D3g7yxCEdzzF9WzrKmKWQODy7EuAU4jGE5JlDf';
+        const clientSecret = 't6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4t6nadULs7u3hLDDmC2JzCuQJEFCxxRMthXMIF57OJhGTXm9nM4';
+        const data = {
+            grant_type: 'authorization_code',
+            code: 'Fie345ffEE456hgDFDvp02WE6',
+            redirect_uri: 'http://localhost:1234/dummy'
+        };
+        const request = {
+            method: 'POST',
+            url: '/oauth2/token',
+            payload: qs.stringify(data),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${ OAuthUtils.encodeClientCredentials(clientId, clientSecret) }`
+            },
+            validate: true
+        };
+
+        const res = await server.inject(request);
+
+        expect(res.statusCode).to.equal(403);
+    });
+
     after(async () => {
         await server.stop();
         console.log('Server stopped.');
