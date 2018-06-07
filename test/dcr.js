@@ -66,7 +66,6 @@ describe('Dynamic Client Registration', () => {
         };
 
         const res = await server.inject(request);
-        console.log(res);
         expect(res.statusCode).to.equal(201);
         // expect(JSON.parse(res.payload)).to.deep.equal(expectedPayload);
     });
