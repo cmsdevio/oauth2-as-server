@@ -56,7 +56,7 @@ const Manifest = {
                 plugin: 'lout'
             },
             {
-                plugin: './lib/modules/database/index'
+                plugin: 'cmsdev-oauth2-db'
             },
             {
                 plugin: 'hapi-auth-cookie'
