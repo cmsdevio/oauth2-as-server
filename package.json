@@ -29,7 +29,7 @@
     "good-console": "^7.1.0",
     "good-squeeze": "^5.1.0",
     "handlebars": "^4.0.11",
-    "hapi": "^17.4.0",
+    "hapi": "^17.5.0",
     "hapi-auth-bearer-token": "^6.0.1",
     "hapi-auth-cookie": "^8.1.0",
     "history": "^4.7.2",
