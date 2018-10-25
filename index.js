@@ -3,7 +3,7 @@ const Glue = require('glue');
 const Good = require('good');
 const Boom = require('boom');
 
-const Manifest = {
+const ManifestOAuth2 = {
     server: {
         port: process.env.PORT || 9005,
         routes: {
@@ -56,7 +56,7 @@ const Manifest = {
                 plugin: 'lout'
             },
             {
-                plugin: 'cmsdev-oauth2-db'
+                plugin: './lib/modules/database/index'
             },
             {
                 plugin: 'hapi-auth-cookie'
@@ -74,11 +74,80 @@ const Manifest = {
     }
 };
 
+const ManifestAdmin = {
+    server: {
+        port: process.env.PORT_ADMIN || 9007,
+        routes: {
+            cors: true,
+            validate: {
+                failAction: async (request, h, err) => {
+                    if (process.env.NODE_ENV === 'production') {
+                        request.log([ 'oauth2-failAction' ], `Validation Error: ${ err.message }.`);
+                        throw Boom.badRequest('Invalid request payload input');
+                    } else {
+                        // During development, log and respond with the full error.
+                        request.log([ 'oauth2-failAction' ], `Validation Error: ${ err }.`);
+                        throw err;
+                    }
+                }
+            }
+        }
+    },
+    register: {
+        plugins: [
+            {
+                plugin: Good,
+                options: {
+                    reporters: {
+                        console: [
+                            {
+                                module: 'good-squeeze',
+                                name: 'Squeeze',
+                                args: [ {
+                                    log: '*',
+                                    request: '*',
+                                    response: [ 'oauth2-*', 'admin-*' ]
+                                } ]
+                            },
+                            {
+                                module: 'good-console'
+                            },
+                            'stdout'
+                        ]
+                    }
+                }
+            },
+            {
+                plugin: 'vision'
+            },
+            {
+                plugin: 'inert'
+            },
+            {
+                plugin: 'lout'
+            },
+            {
+                plugin: './lib/modules/database/index'
+            },
+            {
+                plugin: 'hapi-auth-cookie'
+            },
+            {
+                plugin: 'hapi-auth-bearer-token'
+            },
+            {
+                plugin: './lib/modules/admin/index'
+            }
+        ]
+    }
+};
+
 const options = { relativeTo: __dirname };
 
 const init = async () => {
     try {
-        const server = await Glue.compose(Manifest, options);
+        const server = await Glue.compose(ManifestOAuth2, options);
+        const server2 = await Glue.compose(ManifestAdmin, options);
 
         server.app.oauthOptions = {
             authGrantType: {
@@ -112,8 +181,10 @@ const init = async () => {
         };
 
         await server.start();
+        await server2.start();
 
         console.log(`Server running at: ${ server.info.uri }`);
+        console.log(`Server2 running at: ${ server2.info.uri }`);
     } catch (error) {
         console.error(error);
     }
