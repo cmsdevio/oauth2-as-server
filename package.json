@@ -40,7 +40,7 @@
     "lout": "^11.0.1",
     "moment": "^2.22.1",
     "mongodb": "^3.0.8",
-    "mongoose": "^5.0.18",
+    "mongoose": "^5.2.12",
     "qs": "^6.5.2",
     "randomstring": "^1.1.5",
     "url-loader": "^1.0.1",
